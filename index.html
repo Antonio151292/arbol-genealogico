@@ -2654,23 +2654,23 @@
         });
 
         // COMPARTIR
-        document.getElementById('shareBtn').addEventListener('click', () => {
-            const data = { nodes: state.nodes, connections: state.connections, design: state.design };
-            const json = JSON.stringify(data);
-            const encoded = btoa(json);
-            const url = `${window.location.origin}?data=${encoded}`;
+    //    document.getElementById('shareBtn').addEventListener('click', () => {
+    //        const data = { nodes: state.nodes, connections: state.connections, design: state.design };
+    //        const json = JSON.stringify(data);
+    //        const encoded = btoa(json);
+    //        const url = `${window.location.origin}?data=${encoded}`;
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Mi Árbol Genealógico',
-                    text: 'Mira mi árbol genealógico interactivo',
-                    url: url
-                });
-            } else {
-                prompt('Copia este enlace para compartir:', url);
-            }
-            showToast('🔗 Enlace de compartir copiado', 'success');
-        });
+    //        if (navigator.share) {
+    //            navigator.share({
+    //                title: 'Mi Árbol Genealógico',
+    //                text: 'Mira mi árbol genealógico interactivo',
+    //                url: url
+    //            });
+    //        } else {
+    //            prompt('Copia este enlace para compartir:', url);
+    //        }
+    //        showToast('🔗 Enlace de compartir copiado', 'success');
+    //    });
 
         // DESCARGAR JSON
         document.getElementById('downloadBtn').addEventListener('click', () => {
