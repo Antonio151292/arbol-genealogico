@@ -1030,7 +1030,7 @@
         }
 
         /* =====================================================
-           FIX 1: MOVE HINT POPUP — CSS que faltaba
+           MOVE HINT POPUP
         ====================================================== */
         .move-hint-popup {
             position: fixed;
@@ -1131,8 +1131,7 @@
         }
 
         /* =====================================================
-           FIX 2: TREE MODAL — reutilizado para árbol en sidebar
-           Se mantiene el modal pero también se añade acceso por sidebar
+           TREE MODAL
         ====================================================== */
         .tree-modal-overlay {
             position: fixed;
@@ -1272,7 +1271,6 @@
            RESPONSIVE & MOBILE
         ====================================================== */
 
-        /* Evitar selección de texto al arrastrar */
         canvas {
             -webkit-user-select: none;
             user-select: none;
@@ -1344,7 +1342,6 @@
         /* ── MOBILE SIDEBAR (sheet from bottom) ── */
         @media (max-width: 768px) {
 
-            /* hide desktop right controls and stats */
             .controls-right {
                 display: none !important;
             }
@@ -1353,7 +1350,6 @@
                 display: none !important;
             }
 
-            /* top toolbar: compact, scrollable */
             .toolbar-top {
                 top: 12px;
                 left: 12px;
@@ -1371,7 +1367,6 @@
                 display: none;
             }
 
-            /* hide search and print in toolbar on mobile */
             #canvasSearch,
             #printBtn,
             .toolbar-separator {
@@ -1384,7 +1379,6 @@
                 flex-shrink: 0;
             }
 
-            /* sidebar becomes a bottom sheet */
             .main-container {
                 flex-direction: column;
             }
@@ -1408,7 +1402,6 @@
                 transform: translateY(0);
             }
 
-            /* drag handle on top of bottom sheet */
             .sidebar-header {
                 border-radius: 20px 20px 0 0;
                 padding: 12px 20px 12px;
@@ -1427,7 +1420,6 @@
                 background: rgba(255, 255, 255, 0.5);
             }
 
-            /* design panel also bottom sheet on mobile */
             .design-panel {
                 position: fixed !important;
                 right: 0 !important;
@@ -1449,23 +1441,15 @@
                 border-radius: 20px 20px 0 0;
             }
 
-            /* canvas fills full screen */
             .canvas-area {
                 width: 100vw;
                 height: 100vh;
             }
 
-            /* bottom nav visible */
             .mobile-bottom-nav {
                 display: flex;
             }
 
-            /* canvas extra bottom padding for nav bar */
-            canvas {
-                margin-bottom: 0;
-            }
-
-            /* modal full screen on mobile */
             .modal-content {
                 width: 100%;
                 max-width: 100%;
@@ -1483,23 +1467,19 @@
                 font-size: 26px;
             }
 
-            /* move hint and popups full-width on mobile */
             .move-hint-popup-content {
                 width: 95%;
                 max-width: none;
             }
 
-            /* sidebar toggle button hide on mobile (use bottom nav instead) */
             #sidebarToggle {
                 display: none;
             }
 
-            /* bigger touch targets for form elements */
             .form-input,
             .form-textarea,
             select {
                 font-size: 16px !important;
-                /* prevents iOS zoom */
                 padding: 12px !important;
             }
 
@@ -1508,12 +1488,10 @@
                 font-size: 22px;
             }
 
-            /* member items bigger touch target */
             .member-item {
                 padding: 14px 12px;
             }
 
-            /* modal action bar smaller on mobile */
             .modal-action-btn {
                 font-size: 11px;
                 padding: 6px 10px;
@@ -1555,6 +1533,22 @@
         .pinch-indicator.visible {
             opacity: 1;
         }
+
+        /* =====================================================
+           ADOPTED CONNECTION LEGEND BADGE
+        ====================================================== */
+        .adopted-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, #f3e8ff, #ede9fe);
+            border: 1.5px dashed #9333ea;
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #7c3aed;
+        }
     </style>
 </head>
 
@@ -1592,7 +1586,6 @@
                     <button class="btn-icon" id="zoomOut" title="Zoom out">➖</button>
                     <div class="zoom-display" id="zoomDisplay">100%</div>
                     <button class="btn-icon" id="resetView" title="Reset view">🏠</button>
-                    <!-- FIX 2: Este botón ahora abre el tab "Árbol" en el sidebar -->
                     <button class="btn-icon btn-icon-accent" id="treeModalBtn"
                         title="Ver árbol genealógico en sidebar">🌳</button>
                 </div>
@@ -1600,7 +1593,6 @@
                     <button class="btn-icon" id="designToggle" title="Diseño">🎨</button>
                     <button class="btn-icon" id="downloadBtn" title="Descargar">💾</button>
                     <button class="btn-icon" id="importBtn" title="Importar">📂</button>
-                    <!-- FIX 1: Este botón abre el popup de ayuda -->
                     <button class="btn-icon btn-icon-accent" id="moveHintBtn" title="Cómo mover personas">↕️</button>
                 </div>
             </div>
@@ -1623,7 +1615,6 @@
                     <div class="stat-icon">🎨</div>
                     <span id="statsZoom">Zoom: 100%</span>
                 </div>
-
             </div>
         </div>
 
@@ -1700,7 +1691,16 @@
                             <p><strong>Familiares:</strong> <span id="treeRelatives">-</span></p>
                         </div>
                     </div>
-                    <!-- Lista de miembros agrupados por familia dentro del sidebar -->
+                    <!-- Leyenda de conexiones incluyendo adoptivo -->
+                    <div style="background: #fdf4ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+                        <div style="font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">🔑 Leyenda de conexiones</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            <span style="font-size: 11px; background: #f3f4f6; padding: 3px 8px; border-radius: 12px;">👨‍👩‍👧 Padre/Madre-Hijo</span>
+                            <span style="font-size: 11px; background: #fce7f3; padding: 3px 8px; border-radius: 12px;">💑 Pareja</span>
+                            <span style="font-size: 11px; background: #eff6ff; padding: 3px 8px; border-radius: 12px;">👫 Hermano/a</span>
+                            <span class="adopted-badge">🫂 Adoptivo/a</span>
+                        </div>
+                    </div>
                     <div id="sidebarTreeList"></div>
                 </div>
             </div>
@@ -1784,6 +1784,12 @@
 
                     <label class="color-label">💼 Compañero/a Trabajo</label>
                     <input type="color" id="connCoworkerColor" class="color-input" value="#6366f1">
+
+                    <label class="color-label">🫂 Hijo/a Adoptivo/a</label>
+                    <input type="color" id="connAdoptedColor" class="color-input" value="#9333ea">
+                    <div style="background: #fdf4ff; border: 1.5px dashed #9333ea; border-radius: 6px; padding: 8px 10px; margin-bottom: 8px; font-size: 11px; color: #7c3aed;">
+                        💡 Las líneas adoptivas se muestran con trazo <strong>doble punteado</strong> para distinguirlas de los lazos biológicos.
+                    </div>
                 </div>
 
                 <div class="design-section">
@@ -1827,7 +1833,7 @@
         </div>
     </div>
 
-    <!-- FIX 1: Move Hint Popup — ahora tiene el CSS correcto arriba -->
+    <!-- Move Hint Popup -->
     <div id="moveHintPopup" class="move-hint-popup hidden">
         <div class="move-hint-popup-content">
             <div class="move-hint-popup-header">
@@ -1846,8 +1852,7 @@
                     <div class="move-hint-item-icon">⌨️</div>
                     <div>
                         <strong>Seleccionar varias personas</strong>
-                        <span>Mantén <kbd>Ctrl</kbd> y haz <kbd>clic</kbd> en cada persona que quieras
-                            seleccionar</span>
+                        <span>Mantén <kbd>Ctrl</kbd> y haz <kbd>clic</kbd> en cada persona que quieras seleccionar</span>
                     </div>
                 </div>
                 <div class="move-hint-item">
@@ -1874,7 +1879,6 @@
 
             <!-- Vista Normal -->
             <div id="viewMode" style="position: relative;">
-                <!-- Barra de acciones en esquina superior derecha -->
                 <div class="modal-action-bar">
                     <button class="modal-action-btn btn-delete-top" id="deleteBtn">🗑️</button>
                     <button class="modal-action-btn btn-edit-top" id="editBtn">✏️</button>
@@ -1895,7 +1899,6 @@
                         <div class="modal-section-content" id="profileHistory"></div>
                     </div>
 
-                    <!-- Conexiones: solo lectura en vista de perfil -->
                     <div class="modal-section" id="connectionsSection" style="display: none;">
                         <div class="modal-section-title">🔗 Conexiones</div>
                         <div id="connectionsList"></div>
@@ -1905,7 +1908,6 @@
 
             <!-- Vista Edición -->
             <div id="editMode" style="display: none; position: relative;">
-                <!-- Botón cancelar en esquina superior derecha -->
                 <div class="modal-action-bar">
                     <button class="modal-action-btn btn-close-top" id="cancelEditBtn">✕ Cancelar</button>
                 </div>
@@ -1916,7 +1918,6 @@
                         ✏️ Editar Perfil
                     </h2>
 
-                    <!-- Datos básicos -->
                     <div style="background: #f9fafb; padding: 18px; border-radius: 12px; margin-bottom: 14px;">
                         <div class="form-group">
                             <label class="form-label">Foto</label>
@@ -1950,17 +1951,14 @@
                         </div>
                     </div>
 
-                    <!-- Sección Conexiones dentro de edición -->
                     <div style="background: #f9fafb; padding: 18px; border-radius: 12px; margin-bottom: 16px;">
                         <div
                             style="font-weight: 700; font-size: 13px; color: var(--text-color); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
                             🔗 Conexiones
                         </div>
 
-                        <!-- Conexiones existentes con botón eliminar -->
                         <div id="editConnectionsList" style="margin-bottom: 12px;"></div>
 
-                        <!-- Agregar nueva conexión -->
                         <div style="border-top: 1px solid var(--border-color); padding-top: 12px;">
                             <div
                                 style="font-size: 11px; font-weight: 600; color: #9ca3af; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
@@ -1969,6 +1967,7 @@
                                 style="width: 100%; padding: 8px 10px; border: 2px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; font-size: 13px; font-family: inherit; background: white;">
                                 <option value="marriage">💑 Pareja / Matrimonio</option>
                                 <option value="parent">👨‍👩‍👧 Padre/Madre → Hijo/a</option>
+                                <option value="adopted">🫂 Padre/Madre → Hijo/a adoptivo/a</option>
                                 <option value="sibling">👫 Hermano/a</option>
                                 <option value="friend">🤝 Amigo/a</option>
                                 <option value="cousin">🧑‍🤝‍🧑 Primo/a</option>
@@ -1986,7 +1985,6 @@
                         </div>
                     </div>
 
-                    <!-- Botón guardar -->
                     <button id="saveBtn"
                         style="width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 15px; transition: all 0.3s;">
                         ✓ Guardar cambios
@@ -2060,6 +2058,7 @@
                 connCousinColor: '#f59e0b',
                 connPartnerColor: '#ec4899',
                 connCoworkerColor: '#6366f1',
+                connAdoptedColor: '#9333ea',
                 fontSizeName: 10,
                 fontSizeRole: 8,
                 boldName: true,
@@ -2067,7 +2066,7 @@
             }
         };
 
-        // FIX: Variables para distinguir click vs drag
+        // Variables para distinguir click vs drag
         let mouseDownPos = { x: 0, y: 0 };
         let mouseDownNode = null;
         let hasDragged = false;
@@ -2116,6 +2115,8 @@
 
             if (savedDesign) {
                 state.design = { ...state.design, ...JSON.parse(savedDesign) };
+                // Ensure new field exists even in old saved data
+                if (!state.design.connAdoptedColor) state.design.connAdoptedColor = '#9333ea';
                 updateDesignUI();
             }
 
@@ -2199,6 +2200,7 @@
             document.getElementById('connCousinColor').value = state.design.connCousinColor;
             document.getElementById('connPartnerColor').value = state.design.connPartnerColor;
             document.getElementById('connCoworkerColor').value = state.design.connCoworkerColor;
+            document.getElementById('connAdoptedColor').value = state.design.connAdoptedColor || '#9333ea';
             document.getElementById('fontSizeName').value = state.design.fontSizeName;
             document.getElementById('fontSizeNameDisplay').textContent = state.design.fontSizeName + 'px';
             document.getElementById('fontSizeRole').value = state.design.fontSizeRole;
@@ -2223,6 +2225,9 @@
             });
         }
 
+        // ── CONNECTION STYLES ─────────────────────────────────
+        // adopted uses a special double-dash pattern (long dash + short dot)
+        // to visually differentiate from biological parent connections
         const connStyles = {
             marriage: { color: () => state.design.connMarriageColor, width: 3, dash: [6, 4], label: '💑', curved: false },
             parent: { color: () => state.design.connParentColor, width: 2, dash: [], label: '👨‍👩‍👧', curved: true },
@@ -2231,6 +2236,8 @@
             cousin: { color: () => state.design.connCousinColor, width: 2, dash: [3, 3], label: '🧑‍🤝‍🧑', curved: true },
             partner: { color: () => state.design.connPartnerColor, width: 2, dash: [5, 3], label: '💞', curved: false },
             coworker: { color: () => state.design.connCoworkerColor, width: 2, dash: [2, 4], label: '💼', curved: true },
+            // ── ADOPTED: long dash + short gap + dot + short gap (double-dash look) ──
+            adopted: { color: () => state.design.connAdoptedColor, width: 2.5, dash: [10, 4, 2, 4], label: '🫂', curved: false, isAdopted: true },
         };
 
         function draw() {
@@ -2265,6 +2272,13 @@
                     ctx.lineTo(ax, midY);
                     ctx.lineTo(bx, midY);
                     ctx.lineTo(bx, by - 40);
+                } else if (conn.type === 'adopted') {
+                    // Same orthogonal routing as parent, but with distinct dashed style
+                    const midY = ay + (by - ay) * 0.5;
+                    ctx.moveTo(ax, ay + 40);
+                    ctx.lineTo(ax, midY);
+                    ctx.lineTo(bx, midY);
+                    ctx.lineTo(bx, by - 40);
                 } else {
                     const cp1x = ax + (bx - ax) * 0.5;
                     const cp1y = ay;
@@ -2275,6 +2289,24 @@
                 }
                 ctx.stroke();
                 ctx.setLineDash([]);
+
+                // ── ADOPTED: second decorative pass with white dot overlay ──
+                // This creates a clearly distinctive "double-dash" visual on the line
+                if (conn.type === 'adopted') {
+                    const midYo = ay + (by - ay) * 0.5;
+                    ctx.beginPath();
+                    ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+                    ctx.lineWidth = 1.5;
+                    ctx.setLineDash([2, 12]);
+                    ctx.lineDashOffset = 8;
+                    ctx.moveTo(ax, ay + 40);
+                    ctx.lineTo(ax, midYo);
+                    ctx.lineTo(bx, midYo);
+                    ctx.lineTo(bx, by - 40);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.lineDashOffset = 0;
+                }
 
                 const midX = (ax + bx) / 2;
                 const midY2 = (ay + by) / 2;
@@ -2378,7 +2410,8 @@
             });
 
             state.connections.forEach(c => {
-                if (c.type === 'parent') {
+                // treat 'adopted' just like 'parent' for layout purposes
+                if (c.type === 'parent' || c.type === 'adopted') {
                     if (!childrenOf[c.from].includes(c.to)) childrenOf[c.from].push(c.to);
                     if (!parentsOf[c.to].includes(c.from)) parentsOf[c.to].push(c.from);
                 }
@@ -2417,7 +2450,7 @@
             const union = (a, b) => { uf[find(a)] = find(b); };
 
             state.connections.forEach(c => {
-                if (c.type === 'parent' || c.type === 'marriage' || c.type === 'partner') union(c.from, c.to);
+                if (c.type === 'parent' || c.type === 'adopted' || c.type === 'marriage' || c.type === 'partner') union(c.from, c.to);
             });
 
             const groupsMap = {};
@@ -2776,7 +2809,7 @@
                     let midX, midY;
                     if (conn.type === 'marriage' || conn.type === 'partner') {
                         midX = (ax + bx) / 2; midY = (ay + by) / 2;
-                    } else if (conn.type === 'parent') {
+                    } else if (conn.type === 'parent' || conn.type === 'adopted') {
                         midX = ax; midY = ay + (by - ay) * 0.5;
                     } else {
                         midX = (ax + bx) / 2; midY = (ay + by) / 2;
@@ -2790,7 +2823,8 @@
                     const labels = {
                         marriage: '💑 Pareja / Matrimonio', parent: '👨‍👩‍👧 Padre/Madre → Hijo/a',
                         sibling: '👫 Hermano/a', friend: '🤝 Amigo/a',
-                        cousin: '🧑‍🤝‍🧑 Primo/a', partner: '💞 Novio/a', coworker: '💼 Compañero/a trabajo'
+                        cousin: '🧑‍🤝‍🧑 Primo/a', partner: '💞 Novio/a', coworker: '💼 Compañero/a trabajo',
+                        adopted: '🫂 Padre/Madre → Hijo/a adoptivo/a'
                     };
                     if (!existingTooltip) {
                         const tooltip = document.createElement('div');
@@ -2913,6 +2947,7 @@
         document.getElementById('connCousinColor').addEventListener('input', (e) => { state.design.connCousinColor = e.target.value; saveData(); draw(); });
         document.getElementById('connPartnerColor').addEventListener('input', (e) => { state.design.connPartnerColor = e.target.value; saveData(); draw(); });
         document.getElementById('connCoworkerColor').addEventListener('input', (e) => { state.design.connCoworkerColor = e.target.value; saveData(); draw(); });
+        document.getElementById('connAdoptedColor').addEventListener('input', (e) => { state.design.connAdoptedColor = e.target.value; saveData(); draw(); });
 
         document.getElementById('fontSizeName').addEventListener('input', (e) => {
             state.design.fontSizeName = parseInt(e.target.value);
@@ -3010,15 +3045,17 @@
                 const typeLabels = {
                     marriage: '💑 Pareja', parent: '👨‍👩‍👧 Padre/Hijo',
                     sibling: '👫 Hermano/a', friend: '🤝 Amigo/a',
-                    cousin: '🧑‍🤝‍🧑 Primo/a', partner: '💞 Novio/a', coworker: '💼 Compañero/a'
+                    cousin: '🧑‍🤝‍🧑 Primo/a', partner: '💞 Novio/a', coworker: '💼 Compañero/a',
+                    adopted: '🫂 Hijo/a adoptivo/a',
                 };
                 let html = '';
                 relatedConnections.forEach((conn) => {
                     const other = state.nodes.find(n => n.id === (conn.from === node.id ? conn.to : conn.from));
                     if (other) {
                         const label = typeLabels[conn.type] || conn.type;
-                        html += `<div style="background: #f3f4f6; padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 13px; display: flex; align-items: center; border-left: 3px solid var(--primary-color);">
-                            <span><strong>${label}</strong> — ${other.name}</span>
+                        const isAdopted = conn.type === 'adopted';
+                        html += `<div style="background: ${isAdopted ? '#fdf4ff' : '#f3f4f6'}; padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 13px; display: flex; align-items: center; border-left: 3px solid ${isAdopted ? '#9333ea' : 'var(--primary-color)'}; ${isAdopted ? 'border-style: dashed;' : ''}">
+                            <span><strong>${label}</strong> — ${other.name}${isAdopted ? ' <span style="font-size:10px; background:#ede9fe; color:#7c3aed; padding:1px 6px; border-radius:10px; font-weight:600; margin-left:4px;">adoptivo</span>' : ''}</span>
                         </div>`;
                     }
                 });
@@ -3035,7 +3072,8 @@
             const typeLabels = {
                 marriage: '💑 Pareja', parent: '👨‍👩‍👧 Padre/Hijo',
                 sibling: '👫 Hermano/a', friend: '🤝 Amigo/a',
-                cousin: '🧑‍🤝‍🧑 Primo/a', partner: '💞 Novio/a', coworker: '💼 Compañero/a'
+                cousin: '🧑‍🤝‍🧑 Primo/a', partner: '💞 Novio/a', coworker: '💼 Compañero/a trabajo',
+                adopted: '🫂 Hijo/a adoptivo/a',
             };
             const container = document.getElementById('editConnectionsList');
             if (relatedConnections.length === 0) {
@@ -3047,8 +3085,9 @@
                 const other = state.nodes.find(n => n.id === (conn.from === node.id ? conn.to : conn.from));
                 if (other) {
                     const label = typeLabels[conn.type] || conn.type;
-                    html += `<div style="background: white; border: 1px solid var(--border-color); padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--primary-color);">
-                        <span><strong>${label}</strong> → ${other.name}</span>
+                    const isAdopted = conn.type === 'adopted';
+                    html += `<div style="background: white; border: 1px solid ${isAdopted ? '#d8b4fe' : 'var(--border-color)'}; padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid ${isAdopted ? '#9333ea' : 'var(--primary-color)'};">
+                        <span><strong>${label}</strong> → ${other.name}${isAdopted ? ' <span style="font-size:10px;background:#ede9fe;color:#7c3aed;padding:1px 5px;border-radius:8px;font-weight:600;">adoptivo</span>' : ''}</span>
                         <button onclick="removeConnectionEdit(${node.id}, ${other.id})" style="background: #ef4444; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; flex-shrink:0; margin-left:8px;">✕</button>
                     </div>`;
                 }
@@ -3082,7 +3121,8 @@
                     saveData();
                     refreshEditConnections(state.selectedNode);
                     draw();
-                    showToast('🔗 Conexión creada', 'success');
+                    const msg = type === 'adopted' ? '🫂 Vínculo adoptivo creado' : '🔗 Conexión creada';
+                    showToast(msg, 'success');
                     document.getElementById('connectToMember').value = '';
                 }
             }
@@ -3255,6 +3295,7 @@
                     state.nodes = data.nodes || [];
                     state.connections = data.connections || [];
                     state.design = { ...state.design, ...data.design };
+                    if (!state.design.connAdoptedColor) state.design.connAdoptedColor = '#9333ea';
                     state.imageCache = {};
                     state.nodes.forEach(node => {
                         if (node.photo) {
@@ -3324,6 +3365,7 @@
 
         function updateStats() {
             const marriages = state.connections.filter(c => c.type === 'marriage' || c.type === 'partner').length;
+            const adopted = state.connections.filter(c => c.type === 'adopted').length;
             document.getElementById('statsMembers').textContent = state.nodes.length;
             document.getElementById('statsMarriages').textContent = marriages;
             document.getElementById('statsConnections').textContent = state.connections.length;
@@ -3332,9 +3374,7 @@
             document.getElementById('treeMarriages').textContent = marriages;
         }
 
-        // =====================================================
-        // FIX 1: MOVE HINT POPUP — lógica corregida
-        // =====================================================
+        // Move Hint Popup
         document.getElementById('moveHintBtn').addEventListener('click', () => {
             document.getElementById('moveHintPopup').classList.toggle('hidden');
         });
@@ -3347,15 +3387,12 @@
             }
         });
 
-        // =====================================================
-        // FIX 2: BOTÓN 🌳 → abre el TAB "Árbol" en el sidebar
-        // =====================================================
+        // Tree Modal Button
         document.getElementById('treeModalBtn').addEventListener('click', () => {
             if (isMobile && isMobile()) {
                 openSidebar('tree');
                 return;
             }
-            // desktop: show sidebar tab
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.remove('hidden');
             document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
@@ -3367,17 +3404,15 @@
             showToast('🌳 Árbol genealógico abierto en el panel', 'success');
         });
 
-        // Poblar el tab de árbol en el sidebar
         function updateTreeSidebarTab() {
             const nodes = state.nodes;
             const connections = state.connections;
 
-            // Calcular generaciones
             const childrenOf = {};
             const parentsOf = {};
             nodes.forEach(n => { childrenOf[n.id] = []; parentsOf[n.id] = []; });
             connections.forEach(c => {
-                if (c.type === 'parent') {
+                if (c.type === 'parent' || c.type === 'adopted') {
                     childrenOf[c.from].push(c.to);
                     parentsOf[c.to].push(c.from);
                 }
@@ -3403,16 +3438,24 @@
                 families[f]++;
             });
             const marriages = connections.filter(c => c.type === 'marriage' || c.type === 'partner').length;
+            const adoptions = connections.filter(c => c.type === 'adopted').length;
 
-            // Actualizar estadísticas en el tab
             document.getElementById('treeGens').textContent = maxGen;
             document.getElementById('treeFamilies').textContent = Object.keys(families).length;
             document.getElementById('treeMarriages').textContent = marriages;
             document.getElementById('treeRelatives').textContent = nodes.length;
 
-            // Renderizar lista de miembros agrupados por familia
             const sortedFamilies = Object.entries(families).sort((a, b) => b[1] - a[1]);
-            let html = `<div style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;">👥 Personas por familia</div>`;
+            let html = '';
+
+            if (adoptions > 0) {
+                html += `<div style="background: #fdf4ff; border: 1.5px dashed #9333ea; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: #7c3aed; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size:18px;">🫂</span>
+                    <span><strong>${adoptions} vínculo${adoptions !== 1 ? 's' : ''} adoptivo${adoptions !== 1 ? 's' : ''}</strong> en este árbol</span>
+                </div>`;
+            }
+
+            html += `<div style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;">👥 Personas por familia</div>`;
 
             if (nodes.length === 0) {
                 html += `<p style="font-size:13px;color:#9ca3af;text-align:center;padding:16px 0;">No hay miembros aún.</p>`;
@@ -3425,11 +3468,12 @@
                         </div>`;
                     familyMembers.forEach(member => {
                         const connCount = connections.filter(c => c.from === member.id || c.to === member.id).length;
+                        const adoptedConns = connections.filter(c => c.type === 'adopted' && (c.from === member.id || c.to === member.id)).length;
                         html += `<div class="member-item" onclick="openMemberFromSidebar(${member.id})" style="cursor:pointer;">
                             <div class="member-avatar">${member.emoji}</div>
                             <div class="member-info">
                                 <div class="member-name">${member.name}</div>
-                                <div class="member-role">${member.role || '—'}${connCount > 0 ? ` · ${connCount} conexión${connCount !== 1 ? 'es' : ''}` : ''}</div>
+                                <div class="member-role">${member.role || '—'}${connCount > 0 ? ` · ${connCount} conexión${connCount !== 1 ? 'es' : ''}` : ''}${adoptedConns > 0 ? ' · <span style="color:#9333ea;font-size:10px;">🫂 adoptivo</span>' : ''}</div>
                             </div>
                         </div>`;
                     });
@@ -3449,7 +3493,6 @@
             draw();
         };
 
-        // Actualizar el tab árbol cada vez que se activa
         document.querySelectorAll('.sidebar-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
@@ -3457,8 +3500,6 @@
                 tab.classList.add('active');
                 const tabName = tab.dataset.tab;
                 document.getElementById(`tab-${tabName}`).style.display = 'block';
-
-                // Actualizar datos del tab árbol al abrirlo
                 if (tabName === 'tree') {
                     updateTreeSidebarTab();
                 }
@@ -3501,9 +3542,7 @@
         updateStats();
         draw();
 
-        // =====================================================
-        // TOUCH EVENTS — pan, pinch-zoom, tap, drag nodes
-        // =====================================================
+        // ── TOUCH EVENTS ──
         let touchState = {
             touches: [],
             lastDist: 0,
@@ -3540,7 +3579,6 @@
 
             if (touches.length === 1) {
                 const pos = getTouchPos(touches[0]);
-                // Check if touching a node
                 const hit = state.nodes.find(n =>
                     pos.canvasX >= n.x && pos.canvasX <= n.x + 80 &&
                     pos.canvasY >= n.y && pos.canvasY <= n.y + 80
@@ -3549,12 +3587,10 @@
                 mouseDownPos = { x: pos.x, y: pos.y, canvasX: pos.canvasX, canvasY: pos.canvasY };
 
                 if (!hit) {
-                    // pan canvas
                     state.isDragging = true;
                     state.dragStart = { x: pos.x, y: pos.y };
                 }
             } else if (touches.length === 2) {
-                // pinch start
                 state.isDragging = false;
                 touchState.touchNode = null;
                 touchState.lastDist = getTouchDist(touches[0], touches[1]);
@@ -3577,12 +3613,10 @@
                 }
 
                 if (touchState.touchNode && touchState.touchMoved) {
-                    // drag node
                     touchState.touchNode.x = pos.canvasX - 40;
                     touchState.touchNode.y = pos.canvasY - 40;
                     draw();
                 } else if (!touchState.touchNode && state.isDragging) {
-                    // pan canvas
                     const deltaX = pos.x - state.dragStart.x;
                     const deltaY = pos.y - state.dragStart.y;
                     state.pan.x += deltaX;
@@ -3591,7 +3625,6 @@
                     draw();
                 }
             } else if (touches.length === 2) {
-                // pinch zoom
                 const newDist = getTouchDist(touches[0], touches[1]);
                 const newMidX = (touches[0].clientX + touches[1].clientX) / 2;
                 const newMidY = (touches[0].clientY + touches[1].clientY) / 2;
@@ -3602,14 +3635,12 @@
                     const oldZoom = state.zoom;
                     const newZoom = Math.min(3, Math.max(0.3, oldZoom * scale));
 
-                    // zoom toward pinch center
                     const pivotX = newMidX - rect.left;
                     const pivotY = newMidY - rect.top;
                     state.pan.x = pivotX - (pivotX - state.pan.x) * (newZoom / oldZoom);
                     state.pan.y = pivotY - (pivotY - state.pan.y) * (newZoom / oldZoom);
                     state.zoom = newZoom;
 
-                    // pan during pinch
                     const panDeltaX = newMidX - touchState.lastMidX;
                     const panDeltaY = newMidY - touchState.lastMidY;
                     state.pan.x += panDeltaX;
@@ -3618,7 +3649,6 @@
                     const pct = Math.round(newZoom * 100) + '%';
                     document.getElementById('zoomDisplay').textContent = pct;
 
-                    // show pinch indicator briefly
                     const ind = document.getElementById('pinchIndicator');
                     ind.textContent = '🔍 ' + pct;
                     ind.classList.add('visible');
@@ -3637,13 +3667,11 @@
             e.preventDefault();
 
             if (touchState.touchNode && touchState.touchMoved) {
-                // finished dragging a node
                 saveToHistory();
                 saveData();
                 state.selectedNode = touchState.touchNode;
                 draw();
             } else if (touchState.touchNode && !touchState.touchMoved) {
-                // tap on node = open profile
                 state.selectedNode = touchState.touchNode;
                 state.selectedNodes.clear();
                 updateMembersList();
@@ -3668,9 +3696,7 @@
             touchState.lastDist = 0;
         }, { passive: false });
 
-        // =====================================================
-        // CANVAS RESIZE — fills viewport always
-        // =====================================================
+        // Canvas Resize
         function resizeCanvas() {
             const area = document.querySelector('.canvas-area');
             canvas.width = area.clientWidth;
@@ -3678,17 +3704,13 @@
             draw();
         }
         window.addEventListener('resize', resizeCanvas);
-        // Run on load
         resizeCanvas();
 
-        // =====================================================
-        // MOBILE BOTTOM NAV LOGIC
-        // =====================================================
+        // Mobile Bottom Nav
         const isMobile = () => window.innerWidth <= 768;
 
         function openSidebar(tab) {
             if (!isMobile()) {
-                // desktop: just show sidebar normally
                 document.getElementById('sidebar').classList.remove('hidden');
                 return;
             }
@@ -3697,7 +3719,6 @@
             sidebar.classList.add('mobile-open');
             backdrop.classList.add('visible');
 
-            // Activate the right tab
             document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
             const targetTab = document.querySelector(`.sidebar-tab[data-tab="${tab}"]`);
@@ -3718,13 +3739,8 @@
             document.getElementById('sheetBackdrop').classList.remove('visible');
         });
 
-        document.getElementById('mobileNavMembers').addEventListener('click', () => {
-            openSidebar('members');
-        });
-
-        document.getElementById('mobileNavTree').addEventListener('click', () => {
-            openSidebar('tree');
-        });
+        document.getElementById('mobileNavMembers').addEventListener('click', () => { openSidebar('members'); });
+        document.getElementById('mobileNavTree').addEventListener('click', () => { openSidebar('tree'); });
 
         document.getElementById('mobileNavAdd').addEventListener('click', () => {
             openSidebar('members');
@@ -3732,7 +3748,6 @@
                 const addForm = document.getElementById('addForm');
                 addForm.classList.remove('hidden');
                 initEmojiGrid('emojiGrid');
-                // scroll to form
                 addForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 350);
         });
@@ -3751,31 +3766,23 @@
             }
         });
 
-        // Close sidebar when member is selected on mobile
-        const origShowProfile = showProfile;
-        window._showProfilePatched = false;
-        // patch profile closing
         document.getElementById('profileModal').addEventListener('click', (e) => {
             if (e.target === document.getElementById('profileModal')) {
                 document.getElementById('profileModal').classList.add('hidden');
             }
         });
 
-        // Close design panel on mobile when design close btn clicked
         document.getElementById('designClose').addEventListener('click', () => {
             document.getElementById('sheetBackdrop').classList.remove('visible');
         });
 
-        // Swipe down to close bottom sheet
         let sheetSwipeStart = 0;
         document.getElementById('sidebar').addEventListener('touchstart', (e) => {
             sheetSwipeStart = e.touches[0].clientY;
         }, { passive: true });
         document.getElementById('sidebar').addEventListener('touchmove', (e) => {
             const delta = e.touches[0].clientY - sheetSwipeStart;
-            if (delta > 60) {
-                closeSidebar();
-            }
+            if (delta > 60) { closeSidebar(); }
         }, { passive: true });
 
         document.getElementById('designPanel').addEventListener('touchstart', (e) => {
