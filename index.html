@@ -3,7 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Árbol Genealógico Pro - Advanced Family Tree Designer</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -1264,6 +1267,294 @@
             color: #d1d5db;
             font-weight: 700;
         }
+
+        /* =====================================================
+           RESPONSIVE & MOBILE
+        ====================================================== */
+
+        /* Evitar selección de texto al arrastrar */
+        canvas {
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: none;
+        }
+
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ── MOBILE BOTTOM NAV ── */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: white;
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 4px;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .mobile-nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 6px 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.2s;
+            min-width: 52px;
+        }
+
+        .mobile-nav-btn:active {
+            background: #f3f4f6;
+            transform: scale(0.94);
+        }
+
+        .mobile-nav-btn.active {
+            color: var(--primary-color);
+        }
+
+        .mobile-nav-icon {
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        .mobile-nav-label {
+            font-size: 9px;
+            font-weight: 600;
+            color: #6b7280;
+            letter-spacing: 0.3px;
+        }
+
+        .mobile-nav-btn.active .mobile-nav-label {
+            color: var(--primary-color);
+        }
+
+        /* ── MOBILE SIDEBAR (sheet from bottom) ── */
+        @media (max-width: 768px) {
+
+            /* hide desktop right controls and stats */
+            .controls-right {
+                display: none !important;
+            }
+
+            .stats-panel {
+                display: none !important;
+            }
+
+            /* top toolbar: compact, scrollable */
+            .toolbar-top {
+                top: 12px;
+                left: 12px;
+                right: 12px;
+                transform: none;
+                padding: 8px 10px;
+                gap: 6px;
+                overflow-x: auto;
+                white-space: nowrap;
+                border-radius: 10px;
+                scrollbar-width: none;
+            }
+
+            .toolbar-top::-webkit-scrollbar {
+                display: none;
+            }
+
+            /* hide search and print in toolbar on mobile */
+            #canvasSearch,
+            #printBtn,
+            .toolbar-separator {
+                display: none !important;
+            }
+
+            .toolbar-btn {
+                font-size: 12px;
+                padding: 7px 10px;
+                flex-shrink: 0;
+            }
+
+            /* sidebar becomes a bottom sheet */
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: fixed !important;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100% !important;
+                height: 75vh;
+                border-radius: 20px 20px 0 0;
+                box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.18);
+                transform: translateY(100%);
+                transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+                z-index: 60;
+                display: flex !important;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateY(0);
+            }
+
+            /* drag handle on top of bottom sheet */
+            .sidebar-header {
+                border-radius: 20px 20px 0 0;
+                padding: 12px 20px 12px;
+                position: relative;
+            }
+
+            .sidebar-header::before {
+                content: '';
+                position: absolute;
+                top: 8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 36px;
+                height: 4px;
+                border-radius: 2px;
+                background: rgba(255, 255, 255, 0.5);
+            }
+
+            /* design panel also bottom sheet on mobile */
+            .design-panel {
+                position: fixed !important;
+                right: 0 !important;
+                bottom: 0;
+                top: auto !important;
+                width: 100% !important;
+                height: 80vh;
+                border-radius: 20px 20px 0 0;
+                transform: translateY(100%);
+                transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+            }
+
+            .design-panel.open {
+                right: 0 !important;
+                transform: translateY(0) !important;
+            }
+
+            .design-header {
+                border-radius: 20px 20px 0 0;
+            }
+
+            /* canvas fills full screen */
+            .canvas-area {
+                width: 100vw;
+                height: 100vh;
+            }
+
+            /* bottom nav visible */
+            .mobile-bottom-nav {
+                display: flex;
+            }
+
+            /* canvas extra bottom padding for nav bar */
+            canvas {
+                margin-bottom: 0;
+            }
+
+            /* modal full screen on mobile */
+            .modal-content {
+                width: 100%;
+                max-width: 100%;
+                max-height: 95vh;
+                border-radius: 20px 20px 0 0;
+                margin-top: auto;
+                margin-bottom: 0;
+            }
+
+            .modal {
+                align-items: flex-end;
+            }
+
+            .modal-name {
+                font-size: 26px;
+            }
+
+            /* move hint and popups full-width on mobile */
+            .move-hint-popup-content {
+                width: 95%;
+                max-width: none;
+            }
+
+            /* sidebar toggle button hide on mobile (use bottom nav instead) */
+            #sidebarToggle {
+                display: none;
+            }
+
+            /* bigger touch targets for form elements */
+            .form-input,
+            .form-textarea,
+            select {
+                font-size: 16px !important;
+                /* prevents iOS zoom */
+                padding: 12px !important;
+            }
+
+            .emoji-btn {
+                padding: 10px;
+                font-size: 22px;
+            }
+
+            /* member items bigger touch target */
+            .member-item {
+                padding: 14px 12px;
+            }
+
+            /* modal action bar smaller on mobile */
+            .modal-action-btn {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+        }
+
+        /* Backdrop for bottom sheets */
+        .sheet-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 55;
+            backdrop-filter: blur(2px);
+        }
+
+        .sheet-backdrop.visible {
+            display: block;
+        }
+
+        /* Pinch zoom indicator */
+        .pinch-indicator {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.75);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            z-index: 200;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .pinch-indicator.visible {
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -1708,6 +1999,37 @@
 
     <!-- Input file oculto para importar -->
     <input type="file" id="importFile" accept=".json">
+
+    <!-- Mobile bottom navigation bar -->
+    <nav class="mobile-bottom-nav" id="mobileNav">
+        <button class="mobile-nav-btn" id="mobileNavMembers">
+            <span class="mobile-nav-icon">👥</span>
+            <span class="mobile-nav-label">Miembros</span>
+        </button>
+        <button class="mobile-nav-btn" id="mobileNavTree">
+            <span class="mobile-nav-icon">🌳</span>
+            <span class="mobile-nav-label">Árbol</span>
+        </button>
+        <button class="mobile-nav-btn" id="mobileNavAdd">
+            <span class="mobile-nav-icon"
+                style="font-size:32px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">➕</span>
+            <span class="mobile-nav-label">Agregar</span>
+        </button>
+        <button class="mobile-nav-btn" id="mobileNavLayout">
+            <span class="mobile-nav-icon">🔄</span>
+            <span class="mobile-nav-label">Organizar</span>
+        </button>
+        <button class="mobile-nav-btn" id="mobileNavDesign">
+            <span class="mobile-nav-icon">🎨</span>
+            <span class="mobile-nav-label">Diseño</span>
+        </button>
+    </nav>
+
+    <!-- Backdrop for bottom sheets -->
+    <div class="sheet-backdrop" id="sheetBackdrop"></div>
+
+    <!-- Pinch zoom indicator -->
+    <div class="pinch-indicator" id="pinchIndicator">🔍 100%</div>
 
     <script>
         // ESTADO GLOBAL
@@ -3029,21 +3351,19 @@
         // FIX 2: BOTÓN 🌳 → abre el TAB "Árbol" en el sidebar
         // =====================================================
         document.getElementById('treeModalBtn').addEventListener('click', () => {
-            // Asegurarse de que el sidebar esté visible
+            if (isMobile && isMobile()) {
+                openSidebar('tree');
+                return;
+            }
+            // desktop: show sidebar tab
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.remove('hidden');
-
-            // Activar el tab "Árbol"
             document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
-
             const treeTab = document.querySelector('.sidebar-tab[data-tab="tree"]');
             treeTab.classList.add('active');
             document.getElementById('tab-tree').style.display = 'block';
-
-            // Actualizar estadísticas y lista de miembros en el sidebar
             updateTreeSidebarTab();
-
             showToast('🌳 Árbol genealógico abierto en el panel', 'success');
         });
 
@@ -3180,6 +3500,294 @@
         updateMembersList();
         updateStats();
         draw();
+
+        // =====================================================
+        // TOUCH EVENTS — pan, pinch-zoom, tap, drag nodes
+        // =====================================================
+        let touchState = {
+            touches: [],
+            lastDist: 0,
+            lastMidX: 0,
+            lastMidY: 0,
+            touchNode: null,
+            touchMoved: false,
+            tapTimer: null,
+            longPressTimer: null,
+        };
+        const TOUCH_DRAG_THRESHOLD = 8;
+
+        function getTouchPos(touch) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: touch.clientX - rect.left,
+                y: touch.clientY - rect.top,
+                canvasX: (touch.clientX - rect.left - state.pan.x) / state.zoom,
+                canvasY: (touch.clientY - rect.top - state.pan.y) / state.zoom,
+            };
+        }
+
+        function getTouchDist(t1, t2) {
+            const dx = t1.clientX - t2.clientX;
+            const dy = t1.clientY - t2.clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touches = e.touches;
+            touchState.touches = Array.from(touches);
+            touchState.touchMoved = false;
+
+            if (touches.length === 1) {
+                const pos = getTouchPos(touches[0]);
+                // Check if touching a node
+                const hit = state.nodes.find(n =>
+                    pos.canvasX >= n.x && pos.canvasX <= n.x + 80 &&
+                    pos.canvasY >= n.y && pos.canvasY <= n.y + 80
+                );
+                touchState.touchNode = hit || null;
+                mouseDownPos = { x: pos.x, y: pos.y, canvasX: pos.canvasX, canvasY: pos.canvasY };
+
+                if (!hit) {
+                    // pan canvas
+                    state.isDragging = true;
+                    state.dragStart = { x: pos.x, y: pos.y };
+                }
+            } else if (touches.length === 2) {
+                // pinch start
+                state.isDragging = false;
+                touchState.touchNode = null;
+                touchState.lastDist = getTouchDist(touches[0], touches[1]);
+                touchState.lastMidX = (touches[0].clientX + touches[1].clientX) / 2;
+                touchState.lastMidY = (touches[0].clientY + touches[1].clientY) / 2;
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touches = e.touches;
+
+            if (touches.length === 1) {
+                const pos = getTouchPos(touches[0]);
+                const dx = Math.abs(pos.x - mouseDownPos.x);
+                const dy = Math.abs(pos.y - mouseDownPos.y);
+
+                if (dx > TOUCH_DRAG_THRESHOLD || dy > TOUCH_DRAG_THRESHOLD) {
+                    touchState.touchMoved = true;
+                }
+
+                if (touchState.touchNode && touchState.touchMoved) {
+                    // drag node
+                    touchState.touchNode.x = pos.canvasX - 40;
+                    touchState.touchNode.y = pos.canvasY - 40;
+                    draw();
+                } else if (!touchState.touchNode && state.isDragging) {
+                    // pan canvas
+                    const deltaX = pos.x - state.dragStart.x;
+                    const deltaY = pos.y - state.dragStart.y;
+                    state.pan.x += deltaX;
+                    state.pan.y += deltaY;
+                    state.dragStart = { x: pos.x, y: pos.y };
+                    draw();
+                }
+            } else if (touches.length === 2) {
+                // pinch zoom
+                const newDist = getTouchDist(touches[0], touches[1]);
+                const newMidX = (touches[0].clientX + touches[1].clientX) / 2;
+                const newMidY = (touches[0].clientY + touches[1].clientY) / 2;
+                const rect = canvas.getBoundingClientRect();
+
+                if (touchState.lastDist > 0) {
+                    const scale = newDist / touchState.lastDist;
+                    const oldZoom = state.zoom;
+                    const newZoom = Math.min(3, Math.max(0.3, oldZoom * scale));
+
+                    // zoom toward pinch center
+                    const pivotX = newMidX - rect.left;
+                    const pivotY = newMidY - rect.top;
+                    state.pan.x = pivotX - (pivotX - state.pan.x) * (newZoom / oldZoom);
+                    state.pan.y = pivotY - (pivotY - state.pan.y) * (newZoom / oldZoom);
+                    state.zoom = newZoom;
+
+                    // pan during pinch
+                    const panDeltaX = newMidX - touchState.lastMidX;
+                    const panDeltaY = newMidY - touchState.lastMidY;
+                    state.pan.x += panDeltaX;
+                    state.pan.y += panDeltaY;
+
+                    const pct = Math.round(newZoom * 100) + '%';
+                    document.getElementById('zoomDisplay').textContent = pct;
+
+                    // show pinch indicator briefly
+                    const ind = document.getElementById('pinchIndicator');
+                    ind.textContent = '🔍 ' + pct;
+                    ind.classList.add('visible');
+                    clearTimeout(window._pinchTimer);
+                    window._pinchTimer = setTimeout(() => ind.classList.remove('visible'), 800);
+
+                    draw();
+                }
+                touchState.lastDist = newDist;
+                touchState.lastMidX = newMidX;
+                touchState.lastMidY = newMidY;
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+
+            if (touchState.touchNode && touchState.touchMoved) {
+                // finished dragging a node
+                saveToHistory();
+                saveData();
+                state.selectedNode = touchState.touchNode;
+                draw();
+            } else if (touchState.touchNode && !touchState.touchMoved) {
+                // tap on node = open profile
+                state.selectedNode = touchState.touchNode;
+                state.selectedNodes.clear();
+                updateMembersList();
+                showProfile(touchState.touchNode);
+                draw();
+            }
+
+            state.isDragging = false;
+            touchState.touchNode = null;
+            touchState.touchMoved = false;
+            touchState.lastDist = 0;
+
+            if (e.touches.length === 0) {
+                canvas.style.cursor = 'grab';
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchcancel', (e) => {
+            state.isDragging = false;
+            touchState.touchNode = null;
+            touchState.touchMoved = false;
+            touchState.lastDist = 0;
+        }, { passive: false });
+
+        // =====================================================
+        // CANVAS RESIZE — fills viewport always
+        // =====================================================
+        function resizeCanvas() {
+            const area = document.querySelector('.canvas-area');
+            canvas.width = area.clientWidth;
+            canvas.height = area.clientHeight;
+            draw();
+        }
+        window.addEventListener('resize', resizeCanvas);
+        // Run on load
+        resizeCanvas();
+
+        // =====================================================
+        // MOBILE BOTTOM NAV LOGIC
+        // =====================================================
+        const isMobile = () => window.innerWidth <= 768;
+
+        function openSidebar(tab) {
+            if (!isMobile()) {
+                // desktop: just show sidebar normally
+                document.getElementById('sidebar').classList.remove('hidden');
+                return;
+            }
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sheetBackdrop');
+            sidebar.classList.add('mobile-open');
+            backdrop.classList.add('visible');
+
+            // Activate the right tab
+            document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+            const targetTab = document.querySelector(`.sidebar-tab[data-tab="${tab}"]`);
+            if (targetTab) targetTab.classList.add('active');
+            const targetContent = document.getElementById(`tab-${tab}`);
+            if (targetContent) targetContent.style.display = 'block';
+            if (tab === 'tree') updateTreeSidebarTab();
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('mobile-open');
+            document.getElementById('sheetBackdrop').classList.remove('visible');
+        }
+
+        document.getElementById('sheetBackdrop').addEventListener('click', () => {
+            closeSidebar();
+            document.getElementById('designPanel').classList.remove('open');
+            document.getElementById('sheetBackdrop').classList.remove('visible');
+        });
+
+        document.getElementById('mobileNavMembers').addEventListener('click', () => {
+            openSidebar('members');
+        });
+
+        document.getElementById('mobileNavTree').addEventListener('click', () => {
+            openSidebar('tree');
+        });
+
+        document.getElementById('mobileNavAdd').addEventListener('click', () => {
+            openSidebar('members');
+            setTimeout(() => {
+                const addForm = document.getElementById('addForm');
+                addForm.classList.remove('hidden');
+                initEmojiGrid('emojiGrid');
+                // scroll to form
+                addForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 350);
+        });
+
+        document.getElementById('mobileNavLayout').addEventListener('click', () => {
+            autoLayout();
+            showToast('🌳 Árbol organizado', 'success');
+        });
+
+        document.getElementById('mobileNavDesign').addEventListener('click', () => {
+            if (isMobile()) {
+                document.getElementById('designPanel').classList.add('open');
+                document.getElementById('sheetBackdrop').classList.add('visible');
+            } else {
+                document.getElementById('designPanel').classList.toggle('open');
+            }
+        });
+
+        // Close sidebar when member is selected on mobile
+        const origShowProfile = showProfile;
+        window._showProfilePatched = false;
+        // patch profile closing
+        document.getElementById('profileModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('profileModal')) {
+                document.getElementById('profileModal').classList.add('hidden');
+            }
+        });
+
+        // Close design panel on mobile when design close btn clicked
+        document.getElementById('designClose').addEventListener('click', () => {
+            document.getElementById('sheetBackdrop').classList.remove('visible');
+        });
+
+        // Swipe down to close bottom sheet
+        let sheetSwipeStart = 0;
+        document.getElementById('sidebar').addEventListener('touchstart', (e) => {
+            sheetSwipeStart = e.touches[0].clientY;
+        }, { passive: true });
+        document.getElementById('sidebar').addEventListener('touchmove', (e) => {
+            const delta = e.touches[0].clientY - sheetSwipeStart;
+            if (delta > 60) {
+                closeSidebar();
+            }
+        }, { passive: true });
+
+        document.getElementById('designPanel').addEventListener('touchstart', (e) => {
+            sheetSwipeStart = e.touches[0].clientY;
+        }, { passive: true });
+        document.getElementById('designPanel').addEventListener('touchmove', (e) => {
+            const delta = e.touches[0].clientY - sheetSwipeStart;
+            if (delta > 60) {
+                document.getElementById('designPanel').classList.remove('open');
+                document.getElementById('sheetBackdrop').classList.remove('visible');
+            }
+        }, { passive: true });
     </script>
 </body>
 
