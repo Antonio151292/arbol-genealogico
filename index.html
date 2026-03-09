@@ -687,6 +687,64 @@
             box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
         }
 
+        /* Action buttons top-right on profile card */
+        .modal-action-bar {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            display: flex;
+            gap: 8px;
+            z-index: 20;
+        }
+
+        .modal-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 13px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.25s;
+            backdrop-filter: blur(8px);
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .modal-action-btn.btn-close-top {
+            background: rgba(255, 255, 255, 0.88);
+            color: #374151;
+        }
+
+        .modal-action-btn.btn-close-top:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .modal-action-btn.btn-edit-top {
+            background: rgba(59, 130, 246, 0.92);
+            color: white;
+        }
+
+        .modal-action-btn.btn-edit-top:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+        }
+
+        .modal-action-btn.btn-delete-top {
+            background: rgba(239, 68, 68, 0.92);
+            color: white;
+        }
+
+        .modal-action-btn.btn-delete-top:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+        }
+
         /* DESIGN PANEL */
         .design-panel {
             position: fixed;
@@ -939,9 +997,272 @@
             border-top: 5px solid rgba(0, 0, 0, 0.9);
         }
 
+        /* Botón eliminar foto */
+        .btn-remove-photo {
+            width: 100%;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            margin-top: 8px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-remove-photo:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
         /* INPUT FILE HIDDEN */
         #importFile {
             display: none;
+        }
+
+        /* =====================================================
+           FIX 1: MOVE HINT POPUP — CSS que faltaba
+        ====================================================== */
+        .move-hint-popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 150;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease;
+        }
+
+        .move-hint-popup-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 440px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .move-hint-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .move-hint-popup-close {
+            background: rgba(255, 255, 255, 0.25);
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .move-hint-popup-close:hover {
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        .move-hint-popup-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .move-hint-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px;
+            background: #f9fafb;
+            border-radius: 10px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .move-hint-item-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .move-hint-item strong {
+            display: block;
+            font-size: 13px;
+            color: var(--text-color);
+            margin-bottom: 3px;
+        }
+
+        .move-hint-item span {
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .move-hint-item kbd {
+            background: #e5e7eb;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            padding: 1px 5px;
+            font-size: 11px;
+            font-family: monospace;
+        }
+
+        /* =====================================================
+           FIX 2: TREE MODAL — reutilizado para árbol en sidebar
+           Se mantiene el modal pero también se añade acceso por sidebar
+        ====================================================== */
+        .tree-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 150;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease;
+        }
+
+        .tree-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 520px;
+            max-height: 85vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .tree-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .tree-modal-body {
+            overflow-y: auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .tree-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tree-stat-card {
+            background: linear-gradient(135deg, #f3e8ff, #dbeafe);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            border: 1px solid #e9d5ff;
+        }
+
+        .tree-stat-card-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-color);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .tree-stat-card-label {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .tree-families-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .tree-families-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 10px;
+        }
+
+        .tree-member-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            margin-bottom: 4px;
+        }
+
+        .tree-member-item:hover {
+            background: #f3e8ff;
+            border-left-color: var(--primary-color);
+            transform: translateX(3px);
+        }
+
+        .tree-member-avatar {
+            font-size: 20px;
+            width: 32px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .tree-member-info {
+            flex: 1;
+        }
+
+        .tree-member-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .tree-member-meta {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .tree-member-arrow {
+            font-size: 18px;
+            color: #d1d5db;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -963,9 +1284,6 @@
                 <button class="toolbar-btn" id="printBtn" title="Imprimir">
                     🖨️ Imprimir
                 </button>
-             <!--     <button class="toolbar-btn" id="shareBtn" title="Compartir">
-                    🔗 Compartir
-                </button>   -->
                 <div class="toolbar-separator"></div>
                 <button class="toolbar-btn" id="autoLayoutBtn" title="Auto-organizar árbol familiar">
                     🌳 Auto-organizar
@@ -983,11 +1301,16 @@
                     <button class="btn-icon" id="zoomOut" title="Zoom out">➖</button>
                     <div class="zoom-display" id="zoomDisplay">100%</div>
                     <button class="btn-icon" id="resetView" title="Reset view">🏠</button>
+                    <!-- FIX 2: Este botón ahora abre el tab "Árbol" en el sidebar -->
+                    <button class="btn-icon btn-icon-accent" id="treeModalBtn"
+                        title="Ver árbol genealógico en sidebar">🌳</button>
                 </div>
                 <div class="control-group">
                     <button class="btn-icon" id="designToggle" title="Diseño">🎨</button>
                     <button class="btn-icon" id="downloadBtn" title="Descargar">💾</button>
                     <button class="btn-icon" id="importBtn" title="Importar">📂</button>
+                    <!-- FIX 1: Este botón abre el popup de ayuda -->
+                    <button class="btn-icon btn-icon-accent" id="moveHintBtn" title="Cómo mover personas">↕️</button>
                 </div>
             </div>
 
@@ -1009,6 +1332,7 @@
                     <div class="stat-icon">🎨</div>
                     <span id="statsZoom">Zoom: 100%</span>
                 </div>
+
             </div>
         </div>
 
@@ -1076,7 +1400,7 @@
 
                 <!-- Tab Árbol -->
                 <div id="tab-tree" class="tab-content" style="display: none;">
-                    <div style="background: #f9fafb; padding: 16px; border-radius: 8px;">
+                    <div style="background: #f9fafb; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
                         <h4 style="font-weight: 600; margin-bottom: 12px;">📊 Estadísticas del Árbol</h4>
                         <div style="font-size: 13px; line-height: 1.8; color: #4b5563;">
                             <p><strong>Generaciones:</strong> <span id="treeGens">-</span></p>
@@ -1085,6 +1409,8 @@
                             <p><strong>Familiares:</strong> <span id="treeRelatives">-</span></p>
                         </div>
                     </div>
+                    <!-- Lista de miembros agrupados por familia dentro del sidebar -->
+                    <div id="sidebarTreeList"></div>
                 </div>
             </div>
         </div>
@@ -1210,11 +1536,60 @@
         </div>
     </div>
 
+    <!-- FIX 1: Move Hint Popup — ahora tiene el CSS correcto arriba -->
+    <div id="moveHintPopup" class="move-hint-popup hidden">
+        <div class="move-hint-popup-content">
+            <div class="move-hint-popup-header">
+                <span>↕️ Cómo mover nodos</span>
+                <button id="moveHintClose" class="move-hint-popup-close">✕</button>
+            </div>
+            <div class="move-hint-popup-body">
+                <div class="move-hint-item">
+                    <div class="move-hint-item-icon">🖱️</div>
+                    <div>
+                        <strong>Mover una persona</strong>
+                        <span>Haz clic y arrastra directamente sobre el nodo</span>
+                    </div>
+                </div>
+                <div class="move-hint-item">
+                    <div class="move-hint-item-icon">⌨️</div>
+                    <div>
+                        <strong>Seleccionar varias personas</strong>
+                        <span>Mantén <kbd>Ctrl</kbd> y haz <kbd>clic</kbd> en cada persona que quieras
+                            seleccionar</span>
+                    </div>
+                </div>
+                <div class="move-hint-item">
+                    <div class="move-hint-item-icon">↕️</div>
+                    <div>
+                        <strong>Mover selección múltiple</strong>
+                        <span>Con varias personas seleccionadas, arrastra cualquiera para moverlas todas juntas</span>
+                    </div>
+                </div>
+                <div class="move-hint-item">
+                    <div class="move-hint-item-icon">🖐️</div>
+                    <div>
+                        <strong>Mover el canvas</strong>
+                        <span>Haz clic en un área vacía y arrastra para desplazar el árbol completo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Perfil -->
     <div id="profileModal" class="modal hidden">
         <div class="modal-content scrollbar-thin">
+
             <!-- Vista Normal -->
-            <div id="viewMode">
+            <div id="viewMode" style="position: relative;">
+                <!-- Barra de acciones en esquina superior derecha -->
+                <div class="modal-action-bar">
+                    <button class="modal-action-btn btn-delete-top" id="deleteBtn">🗑️</button>
+                    <button class="modal-action-btn btn-edit-top" id="editBtn">✏️</button>
+                    <button class="modal-action-btn btn-close-top" id="closeModal">❌</button>
+                </div>
+
                 <div class="modal-header"></div>
                 <div class="modal-body">
                     <div class="modal-photo">
@@ -1229,88 +1604,105 @@
                         <div class="modal-section-content" id="profileHistory"></div>
                     </div>
 
+                    <!-- Conexiones: solo lectura en vista de perfil -->
                     <div class="modal-section" id="connectionsSection" style="display: none;">
-                        <div class="modal-section-title">💑 Conexiones</div>
-                        <div id="connectionsList" style="margin-bottom: 12px;"></div>
-                        <select id="connectionType"
-                            style="width: 100%; padding: 8px; border: 2px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; font-size: 13px;">
-                            <option value="marriage">💑 Pareja / Matrimonio</option>
-                            <option value="parent">👨‍👩‍👧 Padre/Madre → Hijo/a</option>
-                            <option value="sibling">👫 Hermano/a</option>
-                            <option value="friend">🤝 Amigo/a</option>
-                            <option value="cousin">🧑‍🤝‍🧑 Primo/a</option>
-                            <option value="partner">💞 Novio/a</option>
-                            <option value="coworker">💼 Compañero/a trabajo</option>
-                        </select>
-                        <select id="connectToMember"
-                            style="width: 100%; padding: 8px; border: 2px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; font-size: 13px;">
-                            <option value="">Selecciona un miembro...</option>
-                        </select>
-                        <button id="addConnectionBtn"
-                            style="width: 100%; padding: 8px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">🔗
-                            Conectar</button>
-                    </div>
-
-                    <div class="modal-buttons">
-                        <button class="btn-edit" id="editBtn">✏️ Editar</button>
-                        <button class="btn-delete" id="deleteBtn">🗑️ Eliminar</button>
+                        <div class="modal-section-title">🔗 Conexiones</div>
+                        <div id="connectionsList"></div>
                     </div>
                 </div>
-                <button class="modal-close" id="closeModal">✕</button>
             </div>
 
             <!-- Vista Edición -->
-            <div id="editMode" style="display: none;">
-                <div style="padding: 32px 24px;">
-                    <h2
-                        style="font-family: var(--title-font); font-size: 28px; font-weight: 700; color: var(--text-color); margin-bottom: 24px;">
-                        ✏️ Editar Perfil</h2>
+            <div id="editMode" style="display: none; position: relative;">
+                <!-- Botón cancelar en esquina superior derecha -->
+                <div class="modal-action-bar">
+                    <button class="modal-action-btn btn-close-top" id="cancelEditBtn">✕ Cancelar</button>
+                </div>
 
-                    <div style="background: #f9fafb; padding: 20px; border-radius: 12px;">
+                <div style="padding: 28px 24px 24px;">
+                    <h2
+                        style="font-family: var(--title-font); font-size: 22px; font-weight: 700; color: var(--text-color); margin-bottom: 18px; margin-top: 8px;">
+                        ✏️ Editar Perfil
+                    </h2>
+
+                    <!-- Datos básicos -->
+                    <div style="background: #f9fafb; padding: 18px; border-radius: 12px; margin-bottom: 14px;">
                         <div class="form-group">
                             <label class="form-label">Foto</label>
                             <input type="file" id="editPhoto" class="form-input" accept="image/*">
                             <img id="editPhotoPreview"
-                                style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-top: 12px; display: none;">
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-top: 10px; display: none;">
+                            <button class="btn-remove-photo" id="removePhotoBtn" style="display: none;">
+                                🗑️ Eliminar foto y usar emoji
+                            </button>
                         </div>
-
                         <div class="form-group">
                             <label class="form-label">Nombre</label>
                             <input type="text" id="editName" class="form-input">
                         </div>
-
                         <div class="form-group">
                             <label class="form-label">Familia</label>
                             <input type="text" id="editFamily" class="form-input">
                         </div>
-
                         <div class="form-group">
                             <label class="form-label">Rol</label>
                             <input type="text" id="editRole" class="form-input">
                         </div>
-
                         <div class="form-group">
-                            <label class="form-label">Historia/Descripción</label>
-                            <textarea id="editHistory" class="form-textarea" rows="4"
+                            <label class="form-label">Historia / Descripción</label>
+                            <textarea id="editHistory" class="form-textarea" rows="3"
                                 placeholder="Agregar información..."></textarea>
                         </div>
-
                         <div class="form-group">
                             <label class="form-label">Emoji (si no hay foto)</label>
                             <div class="emoji-grid" id="editEmojiGrid"></div>
                         </div>
+                    </div>
 
-                        <div style="display: flex; gap: 12px; margin-top: 20px;">
-                            <button class="btn-primary" id="saveBtn"
-                                style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); flex: 1; padding: 12px; color: white; font-weight: 600;">✓
-                                Guardar</button>
-                            <button class="btn-secondary" id="cancelEditBtn" style="flex: 1; padding: 12px;">✕
-                                Cancelar</button>
+                    <!-- Sección Conexiones dentro de edición -->
+                    <div style="background: #f9fafb; padding: 18px; border-radius: 12px; margin-bottom: 16px;">
+                        <div
+                            style="font-weight: 700; font-size: 13px; color: var(--text-color); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            🔗 Conexiones
+                        </div>
+
+                        <!-- Conexiones existentes con botón eliminar -->
+                        <div id="editConnectionsList" style="margin-bottom: 12px;"></div>
+
+                        <!-- Agregar nueva conexión -->
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 12px;">
+                            <div
+                                style="font-size: 11px; font-weight: 600; color: #9ca3af; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                ➕ Nueva conexión</div>
+                            <select id="connectionType"
+                                style="width: 100%; padding: 8px 10px; border: 2px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; font-size: 13px; font-family: inherit; background: white;">
+                                <option value="marriage">💑 Pareja / Matrimonio</option>
+                                <option value="parent">👨‍👩‍👧 Padre/Madre → Hijo/a</option>
+                                <option value="sibling">👫 Hermano/a</option>
+                                <option value="friend">🤝 Amigo/a</option>
+                                <option value="cousin">🧑‍🤝‍🧑 Primo/a</option>
+                                <option value="partner">💞 Novio/a</option>
+                                <option value="coworker">💼 Compañero/a trabajo</option>
+                            </select>
+                            <select id="connectToMember"
+                                style="width: 100%; padding: 8px 10px; border: 2px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; font-size: 13px; font-family: inherit; background: white;">
+                                <option value="">Selecciona un miembro...</option>
+                            </select>
+                            <button id="addConnectionBtn"
+                                style="width: 100%; padding: 9px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.3s;">
+                                🔗 Agregar conexión
+                            </button>
                         </div>
                     </div>
+
+                    <!-- Botón guardar -->
+                    <button id="saveBtn"
+                        style="width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 15px; transition: all 0.3s;">
+                        ✓ Guardar cambios
+                    </button>
                 </div>
-                <button class="modal-close" id="closeEditModal">✕</button>
             </div>
+
         </div>
     </div>
 
@@ -1323,23 +1715,22 @@
             nodes: [],
             connections: [],
             selectedNode: null,
-            selectedNodes: new Set(), // Múltiples selecciones
+            selectedNodes: new Set(),
             zoom: 1,
             pan: { x: 0, y: 0 },
             isDragging: false,
             dragStart: { x: 0, y: 0 },
             draggingNode: null,
-            draggingMultiple: false, // Flag para arrastrar múltiples
+            draggingMultiple: false,
             imageCache: {},
-            history: [], // Historial para Ctrl+Z
-            historyIndex: -1, // Índice actual en el historial
+            history: [],
+            historyIndex: -1,
             design: {
                 primaryColor: '#a855f7',
                 secondaryColor: '#ec4899',
                 bgColor: '#f8f9fa',
                 shadowToggle: true,
                 glowToggle: false,
-                // Colores de conexiones
                 connParentColor: '#888888',
                 connMarriageColor: '#ec4899',
                 connSiblingColor: '#3b82f6',
@@ -1347,7 +1738,6 @@
                 connCousinColor: '#f59e0b',
                 connPartnerColor: '#ec4899',
                 connCoworkerColor: '#6366f1',
-                // Tipografía
                 fontSizeName: 10,
                 fontSizeRole: 8,
                 boldName: true,
@@ -1355,17 +1745,18 @@
             }
         };
 
+        // FIX: Variables para distinguir click vs drag
+        let mouseDownPos = { x: 0, y: 0 };
+        let mouseDownNode = null;
+        let hasDragged = false;
+        const DRAG_THRESHOLD = 5;
+
         const emojis = [
             '👨🏻‍💼', '👩🏻‍💼', '👤',
-
             '👶🏻', '🧒🏻', '👦🏻', '👧🏻', '🧑🏻', '👱🏻', '👨🏻', '🧔🏻', '👨🏻‍🦰', '👨🏻‍🦱', '👨🏻‍🦳', '👨🏻‍🦲', '👩🏻', '👩🏻‍🦰', '🧑🏻‍🦰', '👩🏻‍🦱', '🧑🏻‍🦱', '👩🏻‍🦳', '🧑🏻‍🦳', '👩🏻‍🦲', '🧑🏻‍🦲', '👱🏻‍♀️', '👱🏻‍♂️', '🧓🏻', '👴🏻', '👵🏻',
-
             '👶🏼', '🧒🏼', '👦🏼', '👧🏼', '🧑🏼', '👱🏼', '👨🏼', '🧔🏼', '👨🏼‍🦰', '👨🏼‍🦱', '👨🏼‍🦳', '👨🏼‍🦲', '👩🏼', '👩🏼‍🦰', '🧑🏼‍🦰', '👩🏼‍🦱', '👩🏼‍🦳', '🧑🏼‍🦱', '🧑🏼‍🦳', '👩🏼‍🦲', '🧑🏼‍🦲', '👱🏼‍♀️', '👱🏼‍♂️', '🧓🏼', '👴🏼', '👵🏼',
-
             '👶🏽', '🧒🏽', '👦🏽', '👧🏽', '🧑🏽', '👱🏽', '👨🏽', '🧔🏽', '👨🏽‍🦰', '👨🏽‍🦱', '👨🏽‍🦳', '👨🏽‍🦲', '👩🏽', '👩🏽‍🦰', '🧑🏽‍🦰', '👩🏽‍🦱', '🧑🏽‍🦱', '👩🏽‍🦳', '🧑🏽‍🦳', '👩🏽‍🦲', '🧑🏽‍🦲', '👱🏽‍♀️', '👱🏽‍♂️', '🧓🏽', '👴🏽', '👵🏽',
-
             '👶🏾', '🧒🏾', '👦🏾', '👧🏾', '🧑🏾', '👱🏾', '👨🏾', '🧔🏾', '👨🏾‍🦰', '👨🏾‍🦱', '👨🏾‍🦳', '👨🏾‍🦲', '👩🏾', '👩🏾‍🦰', '🧑🏾‍🦰', '👩🏾‍🦱', '🧑🏾‍🦱', '👩🏾‍🦳', '🧑🏾‍🦳', '👩🏾‍🦲', '🧑🏾‍🦲', '👱🏾‍♀️', '👱🏾‍♂️', '🧓🏾', '👴🏾', '👵🏾',
-
             '👶🏿', '🧒🏿', '👦🏿', '👧🏿', '🧑🏿', '👱🏿', '👨🏿', '🧔🏿', '👨🏿‍🦰', '👨🏿‍🦱', '👨🏿‍🦳', '👨🏿‍🦲', '👩🏿', '👩🏿‍🦰', '🧑🏿‍🦰', '👩🏿‍🦱', '🧑🏿‍🦱', '👩🏿‍🦳', '🧑🏿‍🦳', '👩🏿‍🦲', '🧑🏿‍🦲', '👱🏿‍♀️', '👱🏿‍♂️', '🧓🏿', '👴🏿', '👵🏿'
         ];
         let newNodeData = { name: '', family: '', role: '', emoji: '👤', color: '#FF6B6B', photo: null, prompt: '' };
@@ -1373,7 +1764,6 @@
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
-        // INICIALIZAR
         function initData() {
             const saved = localStorage.getItem('familyTreeNodes');
             const savedConnections = localStorage.getItem('familyTreeConnections');
@@ -1407,14 +1797,11 @@
                 updateDesignUI();
             }
 
-            // Precargar imágenes
             state.nodes.forEach(node => {
                 if (node.photo) {
                     const img = new Image();
                     img.src = node.photo;
-                    img.onload = () => {
-                        state.imageCache[node.id] = img;
-                    };
+                    img.onload = () => { state.imageCache[node.id] = img; };
                 }
             });
 
@@ -1422,19 +1809,14 @@
         }
 
         function saveToHistory() {
-            // Eliminar cualquier historial "futuro" si estamos en medio de un undo
             if (state.historyIndex < state.history.length - 1) {
                 state.history = state.history.slice(0, state.historyIndex + 1);
             }
-
-            // Guardar estado actual en el historial (solo nodos y conexiones, no design)
             state.history.push({
                 nodes: JSON.parse(JSON.stringify(state.nodes)),
                 connections: JSON.parse(JSON.stringify(state.connections))
             });
             state.historyIndex = state.history.length - 1;
-
-            // Limitar el historial a los últimos 50 cambios
             if (state.history.length > 50) {
                 state.history.shift();
                 state.historyIndex--;
@@ -1488,8 +1870,6 @@
             document.getElementById('bgColor').value = state.design.bgColor;
             document.getElementById('shadowToggle').checked = state.design.shadowToggle;
             document.getElementById('glowToggle').checked = state.design.glowToggle;
-
-            // Colores de conexiones
             document.getElementById('connParentColor').value = state.design.connParentColor;
             document.getElementById('connMarriageColor').value = state.design.connMarriageColor;
             document.getElementById('connSiblingColor').value = state.design.connSiblingColor;
@@ -1497,8 +1877,6 @@
             document.getElementById('connCousinColor').value = state.design.connCousinColor;
             document.getElementById('connPartnerColor').value = state.design.connPartnerColor;
             document.getElementById('connCoworkerColor').value = state.design.connCoworkerColor;
-
-            // Tipografía
             document.getElementById('fontSizeName').value = state.design.fontSizeName;
             document.getElementById('fontSizeNameDisplay').textContent = state.design.fontSizeName + 'px';
             document.getElementById('fontSizeRole').value = state.design.fontSizeRole;
@@ -1507,7 +1885,6 @@
             document.getElementById('italicRoleToggle').checked = state.design.italicRole;
         }
 
-        // EMOJI GRID
         function initEmojiGrid(parentId) {
             const container = document.getElementById(parentId);
             container.innerHTML = '';
@@ -1524,7 +1901,6 @@
             });
         }
 
-        // ─── CONNECTION STYLE CONFIG ─────────────────────────────────────
         const connStyles = {
             marriage: { color: () => state.design.connMarriageColor, width: 3, dash: [6, 4], label: '💑', curved: false },
             parent: { color: () => state.design.connParentColor, width: 2, dash: [], label: '👨‍👩‍👧', curved: true },
@@ -1535,7 +1911,6 @@
             coworker: { color: () => state.design.connCoworkerColor, width: 2, dash: [2, 4], label: '💼', curved: true },
         };
 
-        // ─── DIBUJAR CANVAS ──────────────────────────────────────────────
         function draw() {
             const W = canvas.width, H = canvas.height;
             ctx.fillStyle = state.design.bgColor;
@@ -1545,7 +1920,6 @@
             ctx.translate(state.pan.x, state.pan.y);
             ctx.scale(state.zoom, state.zoom);
 
-            // — Draw connections —
             state.connections.forEach(conn => {
                 const A = state.nodes.find(n => n.id === conn.from);
                 const B = state.nodes.find(n => n.id === conn.to);
@@ -1590,10 +1964,9 @@
 
             ctx.setLineDash([]);
 
-            // — Draw nodes —
             state.nodes.forEach(node => {
                 const isSelected = state.selectedNode?.id === node.id || state.selectedNodes.has(node.id);
-                const W = 80, H = 80, R = 12;
+                const NW = 80, NH = 80, R = 12;
 
                 if (state.design.shadowToggle) {
                     ctx.shadowColor = 'rgba(0,0,0,0.15)';
@@ -1612,12 +1985,12 @@
 
                 ctx.beginPath();
                 ctx.moveTo(node.x + R, node.y);
-                ctx.lineTo(node.x + W - R, node.y);
-                ctx.quadraticCurveTo(node.x + W, node.y, node.x + W, node.y + R);
-                ctx.lineTo(node.x + W, node.y + H - R);
-                ctx.quadraticCurveTo(node.x + W, node.y + H, node.x + W - R, node.y + H);
-                ctx.lineTo(node.x + R, node.y + H);
-                ctx.quadraticCurveTo(node.x, node.y + H, node.x, node.y + H - R);
+                ctx.lineTo(node.x + NW - R, node.y);
+                ctx.quadraticCurveTo(node.x + NW, node.y, node.x + NW, node.y + R);
+                ctx.lineTo(node.x + NW, node.y + NH - R);
+                ctx.quadraticCurveTo(node.x + NW, node.y + NH, node.x + NW - R, node.y + NH);
+                ctx.lineTo(node.x + R, node.y + NH);
+                ctx.quadraticCurveTo(node.x, node.y + NH, node.x, node.y + NH - R);
                 ctx.lineTo(node.x, node.y + R);
                 ctx.quadraticCurveTo(node.x, node.y, node.x + R, node.y);
                 ctx.closePath();
@@ -1640,7 +2013,6 @@
                     ctx.fillText(node.emoji, node.x + 40, node.y + 22);
                 }
 
-                // Nombre con tipografía configurable
                 const fontWeight = state.design.boldName ? 'bold' : 'normal';
                 ctx.font = `${fontWeight} ${state.design.fontSizeName}px Inter, sans-serif`;
                 ctx.fillStyle = isSelected ? '#fff' : '#1f2937';
@@ -1649,7 +2021,6 @@
                 const firstName = node.name.split(' ')[0];
                 ctx.fillText(firstName, node.x + 40, node.y + 48);
 
-                // Rol con tipografía configurable
                 const fontStyle = state.design.italicRole ? 'italic' : 'normal';
                 ctx.font = `${fontStyle} ${state.design.fontSizeRole}px Inter, sans-serif`;
                 ctx.fillStyle = isSelected ? 'rgba(255,255,255,0.85)' : '#6b7280';
@@ -1665,7 +2036,6 @@
             updateStats();
         }
 
-        // ─── AUTO-LAYOUT ─────────────────────────────────────────────────
         function autoLayout() {
             const NW = 80, NH = 80;
             const H_GAP = 50;
@@ -1700,7 +2070,6 @@
                 }
             });
 
-            // Detectar hermanos implícitos (comparten padres)
             state.nodes.forEach(node => {
                 parentsOf[node.id].forEach(parentId => {
                     childrenOf[parentId].forEach(siblingId => {
@@ -1711,31 +2080,24 @@
                 });
             });
 
-            // Separar nodos de familia de nodos sociales
             const isFamilyNode = (nodeId) => {
                 return parentsOf[nodeId].length > 0 || childrenOf[nodeId].length > 0 || coupleOf[nodeId] !== undefined;
             };
 
             const familyNodeIds = new Set();
             state.nodes.forEach(n => {
-                if (isFamilyNode(n.id)) {
-                    familyNodeIds.add(n.id);
-                }
+                if (isFamilyNode(n.id)) familyNodeIds.add(n.id);
             });
 
-            // Union-Find para grupos
             const uf = {};
             state.nodes.forEach(n => uf[n.id] = n.id);
             const find = id => { if (uf[id] !== id) uf[id] = find(uf[id]); return uf[id]; };
             const union = (a, b) => { uf[find(a)] = find(b); };
 
             state.connections.forEach(c => {
-                if (c.type === 'parent' || c.type === 'marriage' || c.type === 'partner') {
-                    union(c.from, c.to);
-                }
+                if (c.type === 'parent' || c.type === 'marriage' || c.type === 'partner') union(c.from, c.to);
             });
 
-            // Agrupar por familias
             const groupsMap = {};
             state.nodes.forEach(n => {
                 const root = find(n.id);
@@ -1743,20 +2105,15 @@
                 groupsMap[root].push(n.id);
             });
 
-            // Separar en familias y amigos
             const familyGroups = [];
             const friendGroups = [];
 
             Object.values(groupsMap).forEach(group => {
                 const hasFamilyNode = group.some(id => familyNodeIds.has(id));
-                if (hasFamilyNode) {
-                    familyGroups.push(group);
-                } else {
-                    friendGroups.push(group);
-                }
+                if (hasFamilyNode) familyGroups.push(group);
+                else friendGroups.push(group);
             });
 
-            // Calcular profundidad
             const depth = {};
             familyGroups.forEach(group => {
                 const groupSet = new Set(group);
@@ -1778,12 +2135,9 @@
                 group.forEach(id => { if (depth[id] === undefined) depth[id] = 0; });
             });
 
-            // Amigos van solo 2 generaciones más abajo (no tan lejos)
             const friendBaseDepth = Math.max(...Object.values(depth || {}), -1) + 2;
-            friendGroups.forEach((group, groupIdx) => {
-                group.forEach((id) => {
-                    depth[id] = friendBaseDepth;
-                });
+            friendGroups.forEach(group => {
+                group.forEach(id => { depth[id] = friendBaseDepth; });
             });
 
             const isSecondary = new Set();
@@ -1819,7 +2173,6 @@
                 const partner = coupleOf[id];
                 const y = 80 + gen * (NH + V_GAP);
 
-                // Colocar pareja juntos
                 if (partner && !placed.has(partner)) {
                     placed.add(partner);
                     pos[id] = { x: centerX - NW - H_GAP / 2, y };
@@ -1828,15 +2181,12 @@
                     pos[id] = { x: centerX - NW / 2, y };
                 }
 
-                // Procesar hijos
                 const myKids = (childrenOf[id] || []).filter(cid => (depth[cid] || 0) > gen);
                 const pKids = partner ? (childrenOf[partner] || []).filter(cid => (depth[cid] || 0) > gen) : [];
                 const allKids = [...new Set([...myKids, ...pKids])].filter(cid => !placed.has(cid) && !isSecondary.has(cid));
 
                 if (!allKids.length) return;
 
-                // Agrupar hijos por hermandad (mantener hermanos juntos)
-                // PERO: hermanas con parejas DIFERENTES son grupos separados
                 const kidGroups = [];
                 const processedKids = new Set();
 
@@ -1844,54 +2194,41 @@
                     if (!processedKids.has(kid)) {
                         const group = [kid];
                         processedKids.add(kid);
-
-                        // Solo agregar hermanos si:
-                        // 1. No tienen pareja, O
-                        // 2. Tienen la MISMA pareja
                         siblingsOf[kid].forEach(sib => {
                             if (allKids.includes(sib) && !processedKids.has(sib)) {
-                                // Si ambos tienen pareja, solo agrupar si es LA MISMA pareja
                                 const kidPartner = coupleOf[kid];
                                 const sibPartner = coupleOf[sib];
-
                                 if (!kidPartner && !sibPartner) {
-                                    // Ambos sin pareja: agrupar
                                     group.push(sib);
                                     processedKids.add(sib);
                                 } else if (kidPartner && sibPartner && kidPartner === sibPartner) {
-                                    // Misma pareja (pareja compartida): agrupar
                                     group.push(sib);
                                     processedKids.add(sib);
                                 }
-                                // Sino: son familias separadas, no agrupar
                             }
                         });
                         kidGroups.push(group);
                     }
                 });
 
-                // Calcular ancho total de grupos
                 const totalKidsW = kidGroups.reduce((s, group) => {
                     return s + group.reduce((gw, c) => gw + computeWidth(c), 0) + (group.length > 1 ? (group.length - 1) * H_GAP : 0);
-                }, 0) + (kidGroups.length - 1) * (H_GAP * 1.5); // Más separación entre hermanas con familias diferentes
+                }, 0) + (kidGroups.length - 1) * (H_GAP * 1.5);
 
                 let cursor = centerX - totalKidsW / 2;
 
                 kidGroups.forEach(group => {
                     const nextGen = depth[group[0]] || gen + 1;
-
                     let sibCursor = cursor;
                     group.forEach(cid => {
                         const cw = computeWidth(cid);
                         placeSubtree(cid, sibCursor + cw / 2, nextGen);
                         sibCursor += cw + H_GAP;
                     });
-
                     cursor += group.reduce((s, c) => s + computeWidth(c), 0) + (group.length > 1 ? (group.length - 1) * H_GAP : 0) + (H_GAP * 1.5);
                 });
             };
 
-            // Crear layout groups
             const layoutGroups = [];
             familyGroups.forEach(group => {
                 const groupSet = new Set(group);
@@ -1908,14 +2245,12 @@
                 layoutGroups.push({ roots: group, width: NW + H_GAP, group, isFriend: true });
             });
 
-            // Ordenar: familias grandes primero, luego amigos
             layoutGroups.sort((a, b) => {
                 if (a.isFriend && !b.isFriend) return 1;
                 if (!a.isFriend && b.isFriend) return -1;
                 return b.width - a.width;
             });
 
-            // Layout groups en filas
             const allRows = [];
             const familyLayoutGroups = layoutGroups.filter(g => !g.isFriend);
             const friendLayoutGroups = layoutGroups.filter(g => g.isFriend);
@@ -1964,7 +2299,6 @@
                 baseY += (maxDepthInRow - minDepthInRow) + 2;
             });
 
-            // Anti-solapamiento
             const allPosList = Object.entries(pos);
             for (let pass = 0; pass < 3; pass++) {
                 allPosList.forEach(([idA, pA]) => {
@@ -2016,48 +2350,38 @@
             const canvasX = (x - state.pan.x) / state.zoom;
             const canvasY = (y - state.pan.y) / state.zoom;
 
+            mouseDownPos = { x, y, canvasX, canvasY };
+            hasDragged = false;
+
             const clicked = state.nodes.find(node =>
                 canvasX >= node.x && canvasX <= node.x + 80 &&
                 canvasY >= node.y && canvasY <= node.y + 80
             );
 
             if (clicked) {
-                // Ctrl+Click o Cmd+Click para múltiples selecciones
+                mouseDownNode = clicked;
+
                 if (e.ctrlKey || e.metaKey) {
                     if (state.selectedNodes.has(clicked.id)) {
-                        // Si ya está seleccionado, deseleccionar
                         state.selectedNodes.delete(clicked.id);
                     } else {
-                        // Si no está seleccionado, agregar a la selección
                         state.selectedNodes.add(clicked.id);
                     }
+                    mouseDownNode = null;
                     draw();
-                } else {
-                    // Click normal: seleccionar solo este nodo
-                    if (state.selectedNodes.size > 0) {
-                        // Si hay múltiples seleccionados, preparar para moverlos
-                        state.draggingMultiple = true;
-                        state.dragStart = {
-                            canvasX: canvasX,
-                            canvasY: canvasY,
-                            positions: {}
-                        };
-                        // Guardar posiciones iniciales
-                        state.selectedNodes.forEach(nodeId => {
-                            const node = state.nodes.find(n => n.id === nodeId);
-                            if (node) {
-                                state.dragStart.positions[nodeId] = { x: node.x, y: node.y };
-                            }
-                        });
-                    } else {
-                        // Si no hay múltiples, mover uno solo
-                        state.draggingNode = clicked;
-                        state.draggingMultiple = false;
-                        canvas.style.cursor = 'move';
-                    }
+                } else if (state.selectedNodes.size > 0) {
+                    state.dragStart = {
+                        canvasX: canvasX,
+                        canvasY: canvasY,
+                        positions: {}
+                    };
+                    state.selectedNodes.forEach(nodeId => {
+                        const node = state.nodes.find(n => n.id === nodeId);
+                        if (node) state.dragStart.positions[nodeId] = { x: node.x, y: node.y };
+                    });
                 }
             } else {
-                // Click en vacío: limpiar selecciones múltiples si no hay drag
+                mouseDownNode = null;
                 if (!e.ctrlKey && !e.metaKey) {
                     state.selectedNodes.clear();
                     draw();
@@ -2071,22 +2395,39 @@
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
+            const canvasX = (x - state.pan.x) / state.zoom;
+            const canvasY = (y - state.pan.y) / state.zoom;
+
+            if (mouseDownNode && !hasDragged) {
+                const dx = Math.abs(x - mouseDownPos.x);
+                const dy = Math.abs(y - mouseDownPos.y);
+                if (dx > DRAG_THRESHOLD || dy > DRAG_THRESHOLD) {
+                    hasDragged = true;
+                    if (state.selectedNodes.size === 0) {
+                        state.draggingNode = mouseDownNode;
+                        canvas.style.cursor = 'move';
+                    } else {
+                        state.draggingMultiple = true;
+                        state.dragStart = {
+                            canvasX: mouseDownPos.canvasX,
+                            canvasY: mouseDownPos.canvasY,
+                            positions: {}
+                        };
+                        state.selectedNodes.forEach(nodeId => {
+                            const node = state.nodes.find(n => n.id === nodeId);
+                            if (node) state.dragStart.positions[nodeId] = { x: node.x, y: node.y };
+                        });
+                    }
+                }
+            }
 
             if (state.draggingNode) {
-                // Mover un nodo manualmente
-                const canvasX = (x - state.pan.x) / state.zoom;
-                const canvasY = (y - state.pan.y) / state.zoom;
                 state.draggingNode.x = canvasX - 40;
                 state.draggingNode.y = canvasY - 40;
                 draw();
             } else if (state.draggingMultiple && state.selectedNodes.size > 0) {
-                // Mover múltiples nodos seleccionados (cuando se está arrastrando)
-                const canvasX = (x - state.pan.x) / state.zoom;
-                const canvasY = (y - state.pan.y) / state.zoom;
-
                 const deltaX = canvasX - state.dragStart.canvasX;
                 const deltaY = canvasY - state.dragStart.canvasY;
-
                 state.selectedNodes.forEach(nodeId => {
                     const node = state.nodes.find(n => n.id === nodeId);
                     if (node) {
@@ -2094,10 +2435,8 @@
                         node.y = state.dragStart.positions[nodeId].y + deltaY;
                     }
                 });
-
                 draw();
             } else if (state.isDragging) {
-                // Mover canvas
                 const deltaX = x - state.dragStart.x;
                 const deltaY = y - state.dragStart.y;
                 state.pan.x += deltaX;
@@ -2105,101 +2444,82 @@
                 state.dragStart = { x, y };
                 draw();
             } else {
-                // Detectar conexiones para tooltips
-                const canvasX = (x - state.pan.x) / state.zoom;
-                const canvasY = (y - state.pan.y) / state.zoom;
-
                 let hoveredConnection = null;
-
                 state.connections.forEach(conn => {
                     const A = state.nodes.find(n => n.id === conn.from);
                     const B = state.nodes.find(n => n.id === conn.to);
                     if (!A || !B) return;
-
                     const ax = A.x + 40, ay = A.y + 40;
                     const bx = B.x + 40, by = B.y + 40;
-
-                    // Calcular punto medio aproximado
                     let midX, midY;
-
                     if (conn.type === 'marriage' || conn.type === 'partner') {
-                        midX = (ax + bx) / 2;
-                        midY = (ay + by) / 2;
+                        midX = (ax + bx) / 2; midY = (ay + by) / 2;
                     } else if (conn.type === 'parent') {
-                        midX = ax;
-                        midY = ay + (by - ay) * 0.5;
+                        midX = ax; midY = ay + (by - ay) * 0.5;
                     } else {
-                        midX = (ax + bx) / 2;
-                        midY = (ay + by) / 2;
+                        midX = (ax + bx) / 2; midY = (ay + by) / 2;
                     }
-
-                    // Verificar si estamos dentro de 15px del punto medio
                     const dist = Math.sqrt(Math.pow(canvasX - midX, 2) + Math.pow(canvasY - midY, 2));
-                    if (dist < 15 && !hoveredConnection) {
-                        hoveredConnection = conn;
-                    }
+                    if (dist < 15 && !hoveredConnection) hoveredConnection = conn;
                 });
 
-                // Mostrar u ocultar tooltip
                 const existingTooltip = document.getElementById('connectionTooltip');
                 if (hoveredConnection) {
                     const labels = {
-                        marriage: '💑 Pareja / Matrimonio',
-                        parent: '👨‍👩‍👧 Padre/Madre → Hijo/a',
-                        sibling: '👫 Hermano/a',
-                        friend: '🤝 Amigo/a',
-                        cousin: '🧑‍🤝‍🧑 Primo/a',
-                        partner: '💞 Novio/a',
-                        coworker: '💼 Compañero/a trabajo'
+                        marriage: '💑 Pareja / Matrimonio', parent: '👨‍👩‍👧 Padre/Madre → Hijo/a',
+                        sibling: '👫 Hermano/a', friend: '🤝 Amigo/a',
+                        cousin: '🧑‍🤝‍🧑 Primo/a', partner: '💞 Novio/a', coworker: '💼 Compañero/a trabajo'
                     };
-
                     if (!existingTooltip) {
                         const tooltip = document.createElement('div');
                         tooltip.id = 'connectionTooltip';
                         tooltip.className = 'tooltip';
                         document.body.appendChild(tooltip);
                     }
-
                     const tooltip = document.getElementById('connectionTooltip');
                     tooltip.textContent = labels[hoveredConnection.type] || hoveredConnection.type;
                     tooltip.style.left = x + 10 + 'px';
                     tooltip.style.top = y - 30 + 'px';
                     tooltip.style.display = 'block';
                 } else {
-                    if (existingTooltip) {
-                        existingTooltip.style.display = 'none';
-                    }
+                    if (existingTooltip) existingTooltip.style.display = 'none';
                 }
             }
         });
 
-        canvas.addEventListener('mouseup', () => {
+        canvas.addEventListener('mouseup', (e) => {
             if (state.draggingNode) {
                 saveToHistory();
                 saveData();
                 state.selectedNode = state.draggingNode;
                 draw();
-            } else if (state.selectedNodes.size > 0) {
-                // Guardar cambios si se movieron múltiples nodos
+            } else if (state.draggingMultiple && state.selectedNodes.size > 0) {
                 saveToHistory();
                 saveData();
+            } else if (mouseDownNode && !hasDragged) {
+                state.selectedNode = mouseDownNode;
+                state.selectedNodes.clear();
+                updateMembersList();
+                showProfile(mouseDownNode);
+                draw();
             }
+
             state.isDragging = false;
             state.draggingNode = null;
             state.draggingMultiple = false;
+            mouseDownNode = null;
+            hasDragged = false;
             canvas.style.cursor = 'grab';
         });
 
         canvas.addEventListener('mouseleave', () => {
             state.isDragging = false;
             state.draggingNode = null;
+            mouseDownNode = null;
+            hasDragged = false;
             canvas.style.cursor = 'grab';
-
-            // Ocultar tooltip
             const tooltip = document.getElementById('connectionTooltip');
-            if (tooltip) {
-                tooltip.style.display = 'none';
-            }
+            if (tooltip) tooltip.style.display = 'none';
         });
 
         canvas.addEventListener('wheel', (e) => {
@@ -2213,7 +2533,6 @@
             draw();
         });
 
-        // ZOOM BUTTONS
         document.getElementById('zoomIn').addEventListener('click', () => {
             state.zoom = Math.min(3, state.zoom + 0.2);
             document.getElementById('zoomDisplay').textContent = Math.round(state.zoom * 100) + '%';
@@ -2233,7 +2552,6 @@
             draw();
         });
 
-        // DESIGN PANEL
         document.getElementById('designToggle').addEventListener('click', () => {
             document.getElementById('designPanel').classList.toggle('open');
         });
@@ -2242,7 +2560,6 @@
             document.getElementById('designPanel').classList.remove('open');
         });
 
-        // TEMAS
         document.querySelectorAll('.preset-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const theme = btn.dataset.theme;
@@ -2264,137 +2581,47 @@
             });
         });
 
-        // COLORES
-        document.getElementById('primaryColor').addEventListener('input', (e) => {
-            state.design.primaryColor = e.target.value;
-            saveData();
-            applyDesign();
-        });
+        document.getElementById('primaryColor').addEventListener('input', (e) => { state.design.primaryColor = e.target.value; saveData(); applyDesign(); });
+        document.getElementById('secondaryColor').addEventListener('input', (e) => { state.design.secondaryColor = e.target.value; saveData(); applyDesign(); });
+        document.getElementById('bgColor').addEventListener('input', (e) => { state.design.bgColor = e.target.value; saveData(); applyDesign(); });
+        document.getElementById('connParentColor').addEventListener('input', (e) => { state.design.connParentColor = e.target.value; saveData(); draw(); });
+        document.getElementById('connMarriageColor').addEventListener('input', (e) => { state.design.connMarriageColor = e.target.value; saveData(); draw(); });
+        document.getElementById('connSiblingColor').addEventListener('input', (e) => { state.design.connSiblingColor = e.target.value; saveData(); draw(); });
+        document.getElementById('connFriendColor').addEventListener('input', (e) => { state.design.connFriendColor = e.target.value; saveData(); draw(); });
+        document.getElementById('connCousinColor').addEventListener('input', (e) => { state.design.connCousinColor = e.target.value; saveData(); draw(); });
+        document.getElementById('connPartnerColor').addEventListener('input', (e) => { state.design.connPartnerColor = e.target.value; saveData(); draw(); });
+        document.getElementById('connCoworkerColor').addEventListener('input', (e) => { state.design.connCoworkerColor = e.target.value; saveData(); draw(); });
 
-        document.getElementById('secondaryColor').addEventListener('input', (e) => {
-            state.design.secondaryColor = e.target.value;
-            saveData();
-            applyDesign();
-        });
-
-        document.getElementById('bgColor').addEventListener('input', (e) => {
-            state.design.bgColor = e.target.value;
-            saveData();
-            applyDesign();
-        });
-
-        // COLORES DE CONEXIONES
-        document.getElementById('connParentColor').addEventListener('input', (e) => {
-            state.design.connParentColor = e.target.value;
-            saveData();
-            draw();
-        });
-
-        document.getElementById('connMarriageColor').addEventListener('input', (e) => {
-            state.design.connMarriageColor = e.target.value;
-            saveData();
-            draw();
-        });
-
-        document.getElementById('connSiblingColor').addEventListener('input', (e) => {
-            state.design.connSiblingColor = e.target.value;
-            saveData();
-            draw();
-        });
-
-        document.getElementById('connFriendColor').addEventListener('input', (e) => {
-            state.design.connFriendColor = e.target.value;
-            saveData();
-            draw();
-        });
-
-        document.getElementById('connCousinColor').addEventListener('input', (e) => {
-            state.design.connCousinColor = e.target.value;
-            saveData();
-            draw();
-        });
-
-        document.getElementById('connPartnerColor').addEventListener('input', (e) => {
-            state.design.connPartnerColor = e.target.value;
-            saveData();
-            draw();
-        });
-
-        document.getElementById('connCoworkerColor').addEventListener('input', (e) => {
-            state.design.connCoworkerColor = e.target.value;
-            saveData();
-            draw();
-        });
-
-        // TIPOGRAFÍA
         document.getElementById('fontSizeName').addEventListener('input', (e) => {
             state.design.fontSizeName = parseInt(e.target.value);
             document.getElementById('fontSizeNameDisplay').textContent = state.design.fontSizeName + 'px';
-            saveData();
-            draw();
+            saveData(); draw();
         });
-
         document.getElementById('fontSizeRole').addEventListener('input', (e) => {
             state.design.fontSizeRole = parseInt(e.target.value);
             document.getElementById('fontSizeRoleDisplay').textContent = state.design.fontSizeRole + 'px';
-            saveData();
-            draw();
+            saveData(); draw();
         });
+        document.getElementById('boldNameToggle').addEventListener('change', (e) => { state.design.boldName = e.target.checked; saveData(); draw(); });
+        document.getElementById('italicRoleToggle').addEventListener('change', (e) => { state.design.italicRole = e.target.checked; saveData(); draw(); });
+        document.getElementById('shadowToggle').addEventListener('change', (e) => { state.design.shadowToggle = e.target.checked; saveData(); draw(); });
+        document.getElementById('glowToggle').addEventListener('change', (e) => { state.design.glowToggle = e.target.checked; saveData(); draw(); });
 
-        document.getElementById('boldNameToggle').addEventListener('change', (e) => {
-            state.design.boldName = e.target.checked;
-            saveData();
-            draw();
-        });
-
-        document.getElementById('italicRoleToggle').addEventListener('change', (e) => {
-            state.design.italicRole = e.target.checked;
-            saveData();
-            draw();
-        });
-
-        // EFECTOS
-        document.getElementById('shadowToggle').addEventListener('change', (e) => {
-            state.design.shadowToggle = e.target.checked;
-            saveData();
-            draw();
-        });
-
-        document.getElementById('glowToggle').addEventListener('change', (e) => {
-            state.design.glowToggle = e.target.checked;
-            saveData();
-            draw();
-        });
-
-        // KEYBOARD SHORTCUTS
         document.addEventListener('keydown', (e) => {
-            // Ctrl+Z o Cmd+Z para deshacer
-            if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
-                e.preventDefault();
-                undo();
-            }
-            // Ctrl+Shift+Z o Ctrl+Y para rehacer
-            if ((e.ctrlKey || e.metaKey) && (e.key === 'z' && e.shiftKey || e.key === 'y')) {
-                e.preventDefault();
-                redo();
-            }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'z' && e.shiftKey || e.key === 'y')) { e.preventDefault(); redo(); }
         });
 
-        // AGREGAR MIEMBRO
         document.getElementById('addMemberBtn').addEventListener('click', () => {
             const addForm = document.getElementById('addForm');
             addForm.classList.toggle('hidden');
-            if (!addForm.classList.contains('hidden')) {
-                initEmojiGrid('emojiGrid');
-            }
+            if (!addForm.classList.contains('hidden')) initEmojiGrid('emojiGrid');
         });
 
         document.getElementById('createBtn').addEventListener('click', () => {
             if (!document.getElementById('newName').value) {
-                showToast('❌ Ingresa un nombre', 'error');
-                return;
+                showToast('❌ Ingresa un nombre', 'error'); return;
             }
-            const maxX = Math.max(...state.nodes.map(n => n.x), 0);
             newNodeData.name = document.getElementById('newName').value;
             newNodeData.family = document.getElementById('newFamily').value;
             newNodeData.role = document.getElementById('newRole').value;
@@ -2415,6 +2642,7 @@
             draw();
 
             state.selectedNode = newNode;
+            updateMembersList();
             showProfile(newNode);
             showToast('✅ Miembro agregado - Agrega conexiones en el perfil', 'success');
         });
@@ -2423,7 +2651,6 @@
             document.getElementById('addForm').classList.add('hidden');
         });
 
-        // MOSTRAR PERFIL
         function showProfile(node) {
             const modal = document.getElementById('profileModal');
             document.getElementById('viewMode').style.display = 'block';
@@ -2455,29 +2682,110 @@
             }
 
             const relatedConnections = state.connections.filter(c => c.from === node.id || c.to === node.id);
-            document.getElementById('connectionsSection').style.display = 'block';
-
+            const connectionsSection = document.getElementById('connectionsSection');
             if (relatedConnections.length > 0) {
+                connectionsSection.style.display = 'block';
                 const typeLabels = {
                     marriage: '💑 Pareja', parent: '👨‍👩‍👧 Padre/Hijo',
                     sibling: '👫 Hermano/a', friend: '🤝 Amigo/a',
                     cousin: '🧑‍🤝‍🧑 Primo/a', partner: '💞 Novio/a', coworker: '💼 Compañero/a'
                 };
                 let html = '';
-                relatedConnections.forEach((conn, idx) => {
+                relatedConnections.forEach((conn) => {
                     const other = state.nodes.find(n => n.id === (conn.from === node.id ? conn.to : conn.from));
                     if (other) {
                         const label = typeLabels[conn.type] || conn.type;
-                        html += `<div style="background: #f3f4f6; padding: 8px; border-radius: 6px; margin-bottom: 8px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--primary-color);">
-                            <span><strong>${label}</strong> → ${other.name}</span>
-                            <button onclick="removeConnection(${node.id}, ${other.id})" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;">✕</button>
+                        html += `<div style="background: #f3f4f6; padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 13px; display: flex; align-items: center; border-left: 3px solid var(--primary-color);">
+                            <span><strong>${label}</strong> — ${other.name}</span>
                         </div>`;
                     }
                 });
                 document.getElementById('connectionsList').innerHTML = html;
             } else {
-                document.getElementById('connectionsList').innerHTML = '<p style="font-size: 12px; color: #6b7280; margin-bottom: 12px;">Sin conexiones. ¡Agregar una abajo!</p>';
+                connectionsSection.style.display = 'none';
             }
+
+            modal.classList.remove('hidden');
+        }
+
+        function refreshEditConnections(node) {
+            const relatedConnections = state.connections.filter(c => c.from === node.id || c.to === node.id);
+            const typeLabels = {
+                marriage: '💑 Pareja', parent: '👨‍👩‍👧 Padre/Hijo',
+                sibling: '👫 Hermano/a', friend: '🤝 Amigo/a',
+                cousin: '🧑‍🤝‍🧑 Primo/a', partner: '💞 Novio/a', coworker: '💼 Compañero/a'
+            };
+            const container = document.getElementById('editConnectionsList');
+            if (relatedConnections.length === 0) {
+                container.innerHTML = '<p style="font-size: 12px; color: #9ca3af; margin-bottom: 4px;">Sin conexiones aún.</p>';
+                return;
+            }
+            let html = '';
+            relatedConnections.forEach((conn) => {
+                const other = state.nodes.find(n => n.id === (conn.from === node.id ? conn.to : conn.from));
+                if (other) {
+                    const label = typeLabels[conn.type] || conn.type;
+                    html += `<div style="background: white; border: 1px solid var(--border-color); padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--primary-color);">
+                        <span><strong>${label}</strong> → ${other.name}</span>
+                        <button onclick="removeConnectionEdit(${node.id}, ${other.id})" style="background: #ef4444; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; flex-shrink:0; margin-left:8px;">✕</button>
+                    </div>`;
+                }
+            });
+            container.innerHTML = html;
+        }
+
+        window.removeConnectionEdit = function (fromId, toId) {
+            state.connections = state.connections.filter(c =>
+                !(c.from === fromId && c.to === toId) && !(c.from === toId && c.to === fromId)
+            );
+            saveToHistory();
+            saveData();
+            refreshEditConnections(state.selectedNode);
+            draw();
+            showToast('🗑️ Conexión eliminada', 'success');
+        };
+
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'addConnectionBtn') {
+                const fromId = state.selectedNode.id;
+                const toId = parseInt(document.getElementById('connectToMember').value);
+                const type = document.getElementById('connectionType').value;
+                if (toId) {
+                    const exists = state.connections.find(c =>
+                        (c.from === fromId && c.to === toId) || (c.from === toId && c.to === fromId)
+                    );
+                    if (exists) { showToast('⚠️ Esta conexión ya existe', 'error'); return; }
+                    state.connections.push({ from: fromId, to: toId, type });
+                    saveToHistory();
+                    saveData();
+                    refreshEditConnections(state.selectedNode);
+                    draw();
+                    showToast('🔗 Conexión creada', 'success');
+                    document.getElementById('connectToMember').value = '';
+                }
+            }
+        });
+
+        document.getElementById('editBtn').addEventListener('click', () => {
+            const node = state.selectedNode;
+            document.getElementById('editName').value = node.name;
+            document.getElementById('editFamily').value = node.family;
+            document.getElementById('editRole').value = node.role;
+            document.getElementById('editHistory').value = node.prompt || '';
+
+            const preview = document.getElementById('editPhotoPreview');
+            const removeBtn = document.getElementById('removePhotoBtn');
+            if (node.photo) {
+                preview.src = node.photo;
+                preview.style.display = 'block';
+                removeBtn.style.display = 'flex';
+            } else {
+                preview.style.display = 'none';
+                removeBtn.style.display = 'none';
+            }
+
+            document.getElementById('viewMode').style.display = 'none';
+            document.getElementById('editMode').style.display = 'block';
 
             const connectToSelect = document.getElementById('connectToMember');
             connectToSelect.innerHTML = '<option value="">Selecciona un miembro...</option>';
@@ -2488,76 +2796,23 @@
                 connectToSelect.appendChild(option);
             });
 
-            modal.classList.remove('hidden');
-        }
-
-        document.addEventListener('click', (e) => {
-            if (e.target.id === 'addConnectionBtn') {
-                const fromId = state.selectedNode.id;
-                const toId = parseInt(document.getElementById('connectToMember').value);
-                const type = document.getElementById('connectionType').value;
-
-                if (toId) {
-                    const exists = state.connections.find(c =>
-                        (c.from === fromId && c.to === toId) ||
-                        (c.from === toId && c.to === fromId)
-                    );
-
-                    if (exists) {
-                        showToast('⚠️ Esta conexión ya existe', 'error');
-                        return;
-                    }
-
-                    state.connections.push({ from: fromId, to: toId, type });
-                    saveToHistory();
-                    saveData();
-                    showProfile(state.selectedNode);
-                    draw();
-                    showToast('🔗 Conexión creada', 'success');
-                }
-            }
-        });
-
-        window.removeConnection = function (fromId, toId) {
-            state.connections = state.connections.filter(c =>
-                !(c.from === fromId && c.to === toId) &&
-                !(c.from === toId && c.to === fromId)
-            );
-            saveToHistory();
-            saveData();
-            showProfile(state.selectedNode);
-            draw();
-            showToast('🗑️ Conexión eliminada', 'success');
-        };
-
-        document.getElementById('editBtn').addEventListener('click', () => {
-            const node = state.selectedNode;
-
-            document.getElementById('editName').value = node.name;
-            document.getElementById('editFamily').value = node.family;
-            document.getElementById('editRole').value = node.role;
-            document.getElementById('editHistory').value = node.prompt || '';
-
-            if (node.photo) {
-                const preview = document.getElementById('editPhotoPreview');
-                preview.src = node.photo;
-                preview.style.display = 'block';
-            } else {
-                document.getElementById('editPhotoPreview').style.display = 'none';
-            }
-
-            document.getElementById('viewMode').style.display = 'none';
-            document.getElementById('editMode').style.display = 'block';
+            refreshEditConnections(node);
 
             initEmojiGrid('editEmojiGrid');
-
             setTimeout(() => {
                 document.querySelectorAll('#editEmojiGrid .emoji-btn').forEach(btn => {
-                    if (btn.textContent === node.emoji) {
-                        btn.classList.add('selected');
-                    }
+                    if (btn.textContent === node.emoji) btn.classList.add('selected');
                 });
             }, 100);
+        });
+
+        document.getElementById('removePhotoBtn').addEventListener('click', () => {
+            window.tempPhoto = null;
+            window.removePhoto = true;
+            document.getElementById('editPhotoPreview').style.display = 'none';
+            document.getElementById('removePhotoBtn').style.display = 'none';
+            document.getElementById('editPhoto').value = '';
+            showToast('🗑️ Foto eliminada - Guarda para confirmar', 'success');
         });
 
         document.getElementById('editPhoto').addEventListener('change', (e) => {
@@ -2569,6 +2824,8 @@
                     preview.src = event.target.result;
                     preview.style.display = 'block';
                     window.tempPhoto = event.target.result;
+                    window.removePhoto = false;
+                    document.getElementById('removePhotoBtn').style.display = 'flex';
                 };
                 reader.readAsDataURL(file);
             }
@@ -2581,20 +2838,20 @@
             node.role = document.getElementById('editRole').value;
             node.prompt = document.getElementById('editHistory').value;
 
-            if (window.tempPhoto) {
+            if (window.removePhoto) {
+                node.photo = null;
+                delete state.imageCache[node.id];
+                window.removePhoto = false;
+            } else if (window.tempPhoto) {
                 node.photo = window.tempPhoto;
                 const img = new Image();
                 img.src = window.tempPhoto;
-                img.onload = () => {
-                    state.imageCache[node.id] = img;
-                };
+                img.onload = () => { state.imageCache[node.id] = img; };
                 window.tempPhoto = null;
             }
 
             const selectedEmoji = document.querySelector('#editEmojiGrid .emoji-btn.selected');
-            if (selectedEmoji) {
-                node.emoji = selectedEmoji.textContent;
-            }
+            if (selectedEmoji) node.emoji = selectedEmoji.textContent;
 
             saveToHistory();
             saveData();
@@ -2605,13 +2862,9 @@
         });
 
         document.getElementById('cancelEditBtn').addEventListener('click', () => {
-            document.getElementById('viewMode').style.display = 'block';
-            document.getElementById('editMode').style.display = 'none';
-        });
-
-        document.getElementById('closeEditModal').addEventListener('click', () => {
-            document.getElementById('viewMode').style.display = 'block';
-            document.getElementById('editMode').style.display = 'none';
+            window.tempPhoto = null;
+            window.removePhoto = false;
+            showProfile(state.selectedNode);
         });
 
         document.getElementById('deleteBtn').addEventListener('click', () => {
@@ -2632,7 +2885,6 @@
             document.getElementById('profileModal').classList.add('hidden');
         });
 
-        // EXPORTAR IMAGEN
         document.getElementById('exportImg').addEventListener('click', () => {
             showToast('📸 Generando imagen...', 'success');
             setTimeout(() => {
@@ -2644,7 +2896,6 @@
             }, 500);
         });
 
-        // IMPRIMIR
         document.getElementById('printBtn').addEventListener('click', () => {
             const printWindow = window.open('', '', 'height=600,width=800');
             const img = canvas.toDataURL('image/png');
@@ -2653,26 +2904,6 @@
             printWindow.print();
         });
 
-        // COMPARTIR
-    //    document.getElementById('shareBtn').addEventListener('click', () => {
-    //        const data = { nodes: state.nodes, connections: state.connections, design: state.design };
-    //        const json = JSON.stringify(data);
-    //        const encoded = btoa(json);
-    //        const url = `${window.location.origin}?data=${encoded}`;
-
-    //        if (navigator.share) {
-    //            navigator.share({
-    //                title: 'Mi Árbol Genealógico',
-    //                text: 'Mira mi árbol genealógico interactivo',
-    //                url: url
-    //            });
-    //        } else {
-    //            prompt('Copia este enlace para compartir:', url);
-    //        }
-    //        showToast('🔗 Enlace de compartir copiado', 'success');
-    //    });
-
-        // DESCARGAR JSON
         document.getElementById('downloadBtn').addEventListener('click', () => {
             const data = { nodes: state.nodes, connections: state.connections, design: state.design };
             const json = JSON.stringify(data, null, 2);
@@ -2685,7 +2916,6 @@
             showToast('💾 Archivo descargado', 'success');
         });
 
-        // IMPORTAR JSON
         document.getElementById('importBtn').addEventListener('click', () => {
             document.getElementById('importFile').click();
         });
@@ -2693,43 +2923,30 @@
         document.getElementById('importFile').addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = (event) => {
                 try {
                     const data = JSON.parse(event.target.result);
-
                     if (!data.nodes || !Array.isArray(data.nodes)) {
-                        showToast('❌ Formato de archivo inválido', 'error');
-                        return;
+                        showToast('❌ Formato de archivo inválido', 'error'); return;
                     }
-
-                    // Cargar datos
                     state.nodes = data.nodes || [];
                     state.connections = data.connections || [];
                     state.design = { ...state.design, ...data.design };
-
-                    // Limpiar cache y recargar imágenes
                     state.imageCache = {};
                     state.nodes.forEach(node => {
                         if (node.photo) {
                             const img = new Image();
                             img.src = node.photo;
-                            img.onload = () => {
-                                state.imageCache[node.id] = img;
-                                draw();
-                            };
+                            img.onload = () => { state.imageCache[node.id] = img; draw(); };
                         }
                     });
-
-                    // Actualizar UI
                     updateDesignUI();
                     applyDesign();
                     updateMembersList();
                     state.selectedNode = null;
                     state.zoom = 1;
                     state.pan = { x: 0, y: 0 };
-
                     saveData();
                     draw();
                     showToast('✅ Árbol genealógico importado correctamente', 'success');
@@ -2744,10 +2961,18 @@
             document.getElementById('memberCount').textContent = state.nodes.length;
             const list = document.getElementById('membersList');
             list.innerHTML = '';
+
             state.nodes.forEach(node => {
                 const item = document.createElement('div');
                 item.className = 'member-item';
-                if (state.selectedNode?.id === node.id) item.classList.add('selected');
+
+                if (state.selectedNode?.id === node.id) {
+                    item.classList.add('selected');
+                    setTimeout(() => {
+                        item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 50);
+                }
+
                 item.innerHTML = `
                     <div class="member-avatar">${node.emoji}</div>
                     <div class="member-info">
@@ -2758,6 +2983,7 @@
                 `;
                 item.addEventListener('click', () => {
                     state.selectedNode = node;
+                    updateMembersList();
                     showProfile(node);
                     draw();
                 });
@@ -2776,28 +3002,152 @@
 
         function updateStats() {
             const marriages = state.connections.filter(c => c.type === 'marriage' || c.type === 'partner').length;
-            const friends = state.connections.filter(c => c.type === 'friend').length;
             document.getElementById('statsMembers').textContent = state.nodes.length;
             document.getElementById('statsMarriages').textContent = marriages;
             document.getElementById('statsConnections').textContent = state.connections.length;
-
             const families = new Set(state.nodes.map(n => n.family)).size;
             document.getElementById('treeFamilies').textContent = families;
             document.getElementById('treeMarriages').textContent = marriages;
         }
 
+        // =====================================================
+        // FIX 1: MOVE HINT POPUP — lógica corregida
+        // =====================================================
+        document.getElementById('moveHintBtn').addEventListener('click', () => {
+            document.getElementById('moveHintPopup').classList.toggle('hidden');
+        });
+        document.getElementById('moveHintClose').addEventListener('click', () => {
+            document.getElementById('moveHintPopup').classList.add('hidden');
+        });
+        document.getElementById('moveHintPopup').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('moveHintPopup')) {
+                document.getElementById('moveHintPopup').classList.add('hidden');
+            }
+        });
+
+        // =====================================================
+        // FIX 2: BOTÓN 🌳 → abre el TAB "Árbol" en el sidebar
+        // =====================================================
+        document.getElementById('treeModalBtn').addEventListener('click', () => {
+            // Asegurarse de que el sidebar esté visible
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.remove('hidden');
+
+            // Activar el tab "Árbol"
+            document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+
+            const treeTab = document.querySelector('.sidebar-tab[data-tab="tree"]');
+            treeTab.classList.add('active');
+            document.getElementById('tab-tree').style.display = 'block';
+
+            // Actualizar estadísticas y lista de miembros en el sidebar
+            updateTreeSidebarTab();
+
+            showToast('🌳 Árbol genealógico abierto en el panel', 'success');
+        });
+
+        // Poblar el tab de árbol en el sidebar
+        function updateTreeSidebarTab() {
+            const nodes = state.nodes;
+            const connections = state.connections;
+
+            // Calcular generaciones
+            const childrenOf = {};
+            const parentsOf = {};
+            nodes.forEach(n => { childrenOf[n.id] = []; parentsOf[n.id] = []; });
+            connections.forEach(c => {
+                if (c.type === 'parent') {
+                    childrenOf[c.from].push(c.to);
+                    parentsOf[c.to].push(c.from);
+                }
+            });
+            const roots = nodes.filter(n => parentsOf[n.id].length === 0);
+            const depth = {};
+            roots.forEach(r => depth[r.id] = 0);
+            const queue = [...roots.map(r => r.id)];
+            while (queue.length) {
+                const id = queue.shift();
+                (childrenOf[id] || []).forEach(cid => {
+                    if (depth[cid] === undefined) {
+                        depth[cid] = (depth[id] || 0) + 1;
+                        queue.push(cid);
+                    }
+                });
+            }
+            const maxGen = nodes.length > 0 ? Math.max(...nodes.map(n => depth[n.id] ?? 0)) + 1 : 0;
+            const families = {};
+            nodes.forEach(n => {
+                const f = n.family || 'Sin familia';
+                if (!families[f]) families[f] = 0;
+                families[f]++;
+            });
+            const marriages = connections.filter(c => c.type === 'marriage' || c.type === 'partner').length;
+
+            // Actualizar estadísticas en el tab
+            document.getElementById('treeGens').textContent = maxGen;
+            document.getElementById('treeFamilies').textContent = Object.keys(families).length;
+            document.getElementById('treeMarriages').textContent = marriages;
+            document.getElementById('treeRelatives').textContent = nodes.length;
+
+            // Renderizar lista de miembros agrupados por familia
+            const sortedFamilies = Object.entries(families).sort((a, b) => b[1] - a[1]);
+            let html = `<div style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;">👥 Personas por familia</div>`;
+
+            if (nodes.length === 0) {
+                html += `<p style="font-size:13px;color:#9ca3af;text-align:center;padding:16px 0;">No hay miembros aún.</p>`;
+            } else {
+                sortedFamilies.forEach(([familyName]) => {
+                    const familyMembers = nodes.filter(n => (n.family || 'Sin familia') === familyName);
+                    html += `<div style="margin-bottom:16px;">
+                        <div style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;padding-left:2px;">
+                            🏠 Familia ${familyName}
+                        </div>`;
+                    familyMembers.forEach(member => {
+                        const connCount = connections.filter(c => c.from === member.id || c.to === member.id).length;
+                        html += `<div class="member-item" onclick="openMemberFromSidebar(${member.id})" style="cursor:pointer;">
+                            <div class="member-avatar">${member.emoji}</div>
+                            <div class="member-info">
+                                <div class="member-name">${member.name}</div>
+                                <div class="member-role">${member.role || '—'}${connCount > 0 ? ` · ${connCount} conexión${connCount !== 1 ? 'es' : ''}` : ''}</div>
+                            </div>
+                        </div>`;
+                    });
+                    html += `</div>`;
+                });
+            }
+
+            document.getElementById('sidebarTreeList').innerHTML = html;
+        }
+
+        window.openMemberFromSidebar = function (nodeId) {
+            const node = state.nodes.find(n => n.id === nodeId);
+            if (!node) return;
+            state.selectedNode = node;
+            updateMembersList();
+            showProfile(node);
+            draw();
+        };
+
+        // Actualizar el tab árbol cada vez que se activa
         document.querySelectorAll('.sidebar-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
-
                 tab.classList.add('active');
                 const tabName = tab.dataset.tab;
                 document.getElementById(`tab-${tabName}`).style.display = 'block';
+
+                // Actualizar datos del tab árbol al abrirlo
+                if (tabName === 'tree') {
+                    updateTreeSidebarTab();
+                }
             });
         });
 
         function showToast(message, type = 'success') {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             toast.textContent = message;
