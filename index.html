@@ -2120,13 +2120,8 @@
                 updateDesignUI();
             }
 
-            state.nodes.forEach(node => {
-                if (node.photo) {
-                    const img = new Image();
-                    img.src = node.photo;
-                    img.onload = () => { state.imageCache[node.id] = img; };
-                }
-            });
+            // Photos are stored in individual keys — load them back now
+            loadPhotosFromStorage();
 
             applyDesign();
         }
@@ -2172,11 +2167,58 @@
             }
         }
 
+        // ── SAVE: photos stored separately to avoid localStorage quota errors ──
         function saveData() {
-            localStorage.setItem('familyTreeNodes', JSON.stringify(state.nodes));
-            localStorage.setItem('familyTreeConnections', JSON.stringify(state.connections));
-            localStorage.setItem('familyTreeDesign', JSON.stringify(state.design));
-            showToast('✅ Guardado automáticamente', 'success');
+            try {
+                // Strip photos from nodes before saving to main key
+                const nodesWithoutPhotos = state.nodes.map(n => {
+                    const { photo, ...rest } = n;
+                    return rest;
+                });
+                localStorage.setItem('familyTreeNodes', JSON.stringify(nodesWithoutPhotos));
+                localStorage.setItem('familyTreeConnections', JSON.stringify(state.connections));
+                localStorage.setItem('familyTreeDesign', JSON.stringify(state.design));
+
+                // Save each photo in its own key so we can evict individually if needed
+                state.nodes.forEach(n => {
+                    if (n.photo) {
+                        try {
+                            localStorage.setItem(`familyTreePhoto_${n.id}`, n.photo);
+                        } catch (photoErr) {
+                            // Photo too large for localStorage — keep in memory only
+                            console.warn(`Foto del nodo ${n.id} no guardada en localStorage (muy grande). Se conserva en memoria.`);
+                        }
+                    } else {
+                        // Remove old photo key if photo was deleted
+                        localStorage.removeItem(`familyTreePhoto_${n.id}`);
+                    }
+                });
+
+                showToast('✅ Guardado automáticamente', 'success');
+            } catch (err) {
+                // Last-resort: try saving without photos at all
+                try {
+                    const nodesClean = state.nodes.map(n => { const { photo, ...rest } = n; return rest; });
+                    localStorage.setItem('familyTreeNodes', JSON.stringify(nodesClean));
+                    localStorage.setItem('familyTreeConnections', JSON.stringify(state.connections));
+                    showToast('⚠️ Guardado sin fotos (almacenamiento lleno)', 'error');
+                } catch (e2) {
+                    showToast('❌ No se pudo guardar: almacenamiento lleno', 'error');
+                }
+            }
+        }
+
+        // ── LOAD photos back from their individual keys ──
+        function loadPhotosFromStorage() {
+            state.nodes.forEach(n => {
+                const saved = localStorage.getItem(`familyTreePhoto_${n.id}`);
+                if (saved) {
+                    n.photo = saved;
+                    const img = new Image();
+                    img.src = saved;
+                    img.onload = () => { state.imageCache[n.id] = img; draw(); };
+                }
+            });
         }
 
         function applyDesign() {
@@ -3177,17 +3219,40 @@
             showToast('🗑️ Foto eliminada - Guarda para confirmar', 'success');
         });
 
+        // Compress image to JPEG at reduced size to avoid localStorage quota errors
+        function compressImage(dataURL, maxWidth, maxHeight, quality) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    let w = img.width, h = img.height;
+                    if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+                    if (h > maxHeight) { w = Math.round(w * maxHeight / h); h = maxHeight; }
+                    const offscreen = document.createElement('canvas');
+                    offscreen.width = w;
+                    offscreen.height = h;
+                    const octx = offscreen.getContext('2d');
+                    octx.drawImage(img, 0, 0, w, h);
+                    resolve(offscreen.toDataURL('image/jpeg', quality));
+                };
+                img.src = dataURL;
+            });
+        }
+
         document.getElementById('editPhoto').addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = (event) => {
+                reader.onload = async (event) => {
+                    // Compress to max 300×300 at 70% quality — keeps it well under 100KB
+                    const compressed = await compressImage(event.target.result, 300, 300, 0.70);
                     const preview = document.getElementById('editPhotoPreview');
-                    preview.src = event.target.result;
+                    preview.src = compressed;
                     preview.style.display = 'block';
-                    window.tempPhoto = event.target.result;
+                    window.tempPhoto = compressed;
                     window.removePhoto = false;
                     document.getElementById('removePhotoBtn').style.display = 'flex';
+                    const kb = Math.round(compressed.length * 0.75 / 1024);
+                    showToast(`📸 Foto cargada (~${kb} KB comprimida)`, 'success');
                 };
                 reader.readAsDataURL(file);
             }
@@ -3231,6 +3296,8 @@
 
         document.getElementById('deleteBtn').addEventListener('click', () => {
             if (confirm(`¿Eliminar a ${state.selectedNode.name}?`)) {
+                // Remove photo from localStorage too
+                localStorage.removeItem(`familyTreePhoto_${state.selectedNode.id}`);
                 state.nodes = state.nodes.filter(n => n.id !== state.selectedNode.id);
                 state.connections = state.connections.filter(c => c.from !== state.selectedNode.id && c.to !== state.selectedNode.id);
                 saveToHistory();
@@ -3286,7 +3353,7 @@
             const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = (event) => {
+            reader.onload = async (event) => {
                 try {
                     const data = JSON.parse(event.target.result);
                     if (!data.nodes || !Array.isArray(data.nodes)) {
@@ -3297,13 +3364,21 @@
                     state.design = { ...state.design, ...data.design };
                     if (!state.design.connAdoptedColor) state.design.connAdoptedColor = '#9333ea';
                     state.imageCache = {};
-                    state.nodes.forEach(node => {
+
+                    // Compress any photos embedded in the JSON before loading into memory
+                    let photosCompressed = 0;
+                    for (const node of state.nodes) {
                         if (node.photo) {
+                            try {
+                                node.photo = await compressImage(node.photo, 300, 300, 0.70);
+                                photosCompressed++;
+                            } catch (_) { /* keep original if compression fails */ }
                             const img = new Image();
                             img.src = node.photo;
                             img.onload = () => { state.imageCache[node.id] = img; draw(); };
                         }
-                    });
+                    }
+
                     updateDesignUI();
                     applyDesign();
                     updateMembersList();
@@ -3312,7 +3387,10 @@
                     state.pan = { x: 0, y: 0 };
                     saveData();
                     draw();
-                    showToast('✅ Árbol genealógico importado correctamente', 'success');
+                    const msg = photosCompressed > 0
+                        ? `✅ Importado correctamente (${photosCompressed} foto${photosCompressed !== 1 ? 's' : ''} comprimida${photosCompressed !== 1 ? 's' : ''})`
+                        : '✅ Árbol genealógico importado correctamente';
+                    showToast(msg, 'success');
                 } catch (error) {
                     showToast('❌ Error al importar: ' + error.message, 'error');
                 }
@@ -3523,6 +3601,8 @@
 
         document.getElementById('resetCanvasBtn').addEventListener('click', () => {
             if (confirm('¿Limpiar todo el árbol? Esta acción no se puede deshacer.')) {
+                // Clear all stored photos
+                state.nodes.forEach(n => localStorage.removeItem(`familyTreePhoto_${n.id}`));
                 state.nodes = [];
                 state.connections = [];
                 state.selectedNode = null;
